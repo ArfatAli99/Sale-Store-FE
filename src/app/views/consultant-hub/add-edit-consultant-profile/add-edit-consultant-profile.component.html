@@ -1,0 +1,321 @@
+<!-- wraper-consultant-submission -->
+<div class="wraper-consultant-submission d-flex align-items-center">
+  <div class="container">
+    <!-- row -->
+    <div class="row align-items-center">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <!-- consultant-submission -->
+        <div class="consultant-submission p-xl-5 p-lg-5 p-md-5 p-sm-4 p-4">
+          <!-- consultant-submission-holder -->
+          <div class="consultant-submission-holder">
+            <!-- consultant-submission-header -->
+            <div class="consultant-submission-header mb-xl-5 mb-lg-5 mb-md-5 mb-sm-4 mb-4 text-center">
+              <!-- brand-logo -->
+              <div class="brand-logo mb-4">
+                <!-- <a routerLink="/">
+                  <img src="assets/images/EBinaa-Logo-Colored.svg" alt="EBinaa Logo">
+                </a> -->
+              </div>
+              <!-- brand-logo -->
+              <!-- section-heading -->
+              <div class="section-heading">
+                <h1 class="title">Consultant Profile Information</h1>
+              </div>
+              <!-- section-heading -->
+            </div>
+            <!-- consultant-submission-header -->
+            <!-- consultant-submission-form -->
+            <div class="consultant-submission-form contact-form">
+              <form [formGroup]="consultantForm" (ngSubmit)="onSubmit()" autocomplete="off">
+                <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="form-row d-block mx-0 mb-4">
+                      <!-- contact-form-profile-photo-uploader -->
+                      <div class="contact-form-profile-photo-uploader text-center">
+                        <div class="photo-zone position-relative mb-3">
+                          <!-- photo-zone-nophoto  -->
+                          <div *ngIf="!companyLogo"
+                            class="photo-zone-nophoto position-absolute z-index-1 d-flex align-items-center justify-content-center">
+                            <i class="las la-cloud-upload-alt"></i>
+                          </div>
+                          <!-- photo-zone-nophoto  -->
+                          <!-- photo-zone-preview  -->
+                          <div class="photo-zone-preview position-absolute z-index-2" *ngIf="companyLogo">
+                            <img src="{{ companyLogo }}" alt="Company Logo" (click)="openMediaModal($event)" class="hover">
+                            <!-- onError="this.src='https://picsum.photos/200/200'" -->
+                          </div>
+                          <!-- photo-zone-preview  -->
+                          <!-- photo-zone-selector  -->
+                          <!-- <input class="photo-zone-selector position-absolute z-index-3 w-100 h-100" type="file"
+                            accept="image/*" (change)="fileChangeHandler($event)"> -->
+                          <!-- photo-zone-selector  -->
+                        </div>
+                        <div class="data">
+                          <!-- <p class="title">Company Logo</p> -->
+                          <button type="button" class="btn btn-sm btn-outline-primary" (click)="selectCompanyLogo()">change</button>
+                          <input type="file" #companyLogoInput class="d-none" accept=".jpeg,.jpg,.png" (change)="uploadCompanyLogo($event.target.files)">
+                        </div>
+                      </div>
+                      <!-- contact-form-profile-photo-uploader -->
+                    </div>
+                  </div>
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="form-row mx-0 mb-2">
+                      <mat-form-field>
+                        <input matInput type="text" placeholder="Consultant Company Name" required formControlName="company_name">
+                        <mat-error *ngIf="consultantForm.controls.company_name.errors && consultantForm.controls.company_name.errors.required">
+                          This field is required
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="form-row mx-0 mb-2">
+                      <mat-form-field>
+                        <input matInput type="tel" placeholder="Phone No" required formControlName="phone_num">
+                        <mat-error *ngIf="consultantForm.controls.phone_num.errors && consultantForm.controls.phone_num.errors.required">
+                          This field is required
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="form-row mx-0 mb-2">
+                      <mat-form-field>
+                        <input matInput type="url" placeholder="Facebook Link" formControlName="fb_link">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="form-row mx-0 mb-2">
+                      <mat-form-field>
+                        <input matInput type="url" placeholder="Linkedin Link" formControlName="linkedin_link">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="form-row mx-0 mb-2">
+                      <mat-form-field>
+                        <input matInput type="url" placeholder="Instagram Link" formControlName="instagram_link">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="form-row mx-0 mb-2">
+                      <mat-form-field>
+                        <input matInput type="url" placeholder="Website Link" formControlName="website_link">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="form-row mx-0 mb-2">
+                      <mat-form-field>
+                        <input matInput type="url" placeholder="Pinterest Link" formControlName="pinterest_link">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="form-row mx-0 mb-2">
+                      <mat-form-field>
+                        <input matInput type="tel" placeholder="WhatsApp No" formControlName="whatsapp_num">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="form-row mx-0 mb-2">
+                      <mat-form-field>
+                        <textarea matInput placeholder="Company Profile" formControlName="company_profile"></textarea>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="form-row d-block mx-0 mb-4" formArrayName="services"
+                      *ngFor="let service of consultantForm.get('services')['controls']; let i = index;">
+                      <div [formGroupName]="i">
+                        <!-- contact-form-duplicator -->
+                        <div class="contact-form-duplicator row mb-2">
+                          <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7 col-7 text-left">
+                            <p class="title">Company Services</p>
+                          </div>
+                          <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-5 text-right">
+                            <button class="text-uppercase" mat-button type="button" (click)="addServices()" *ngIf="i == 0">Add New</button>
+                            <button class="btn btn-close no-hover-effect p-0 ml-2" type="button" (click)="removeServices(i)" *ngIf="i > 0">
+                              <i class="nav-icon icon-trash"></i>
+                            </button>
+                          </div>
+                        </div>
+                        <!-- contact-form-duplicator -->
+                        <!-- contact-form-clonebox -->
+                        <div class="contact-form-clonebox p-4 mb-3">
+                          <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                              <div class="form-row mx-0 mb-2">
+                                <mat-form-field>
+                                  <input matInput type="text" placeholder="Service Name" required formControlName="service_name">
+                                  <mat-error *ngIf="service.controls.service_name.errors && service.controls.service_name.errors.required">
+                                    This field is required
+                                  </mat-error>
+                                </mat-form-field>
+                              </div>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                              <div class="form-row mx-0">
+                                <mat-form-field>
+                                  <textarea matInput placeholder="Service Description" formControlName="service_desc" rows="5" cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+                                  ></textarea>
+                                </mat-form-field>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- contact-form-clonebox -->
+                    </div>
+                  </div>
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="d-block text-right" *ngIf="engineerResources.length == 0">
+                      <button class="text-uppercase" mat-button type="button" (click)="addEngineer()">Add New Engineer</button>
+                    </div>
+                    <div class="form-row d-block mx-0 mb-4" formArrayName="engineer"
+                      *ngFor="let eng of consultantForm.get('engineer')['controls']; let i = index;">
+                      <!-- contact-form-duplicator -->
+                      <div [formGroupName]="i">
+                        <div class="contact-form-duplicator row mb-2">
+                          <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7 col-7 text-left">
+                            <p class="title">Engineers</p>
+                          </div>
+                          <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-5 text-right">
+                            <button class="text-uppercase" mat-button type="button" (click)="addEngineer()" *ngIf="i == 0">Add New</button>
+                            <button class="btn btn-close no-hover-effect p-0 ml-2" type="button" (click)="removeEngineer(i)" *ngIf="i > 0">
+                              <i class="nav-icon icon-trash"></i>
+                            </button>
+                          </div>
+                        </div>
+                        <!-- contact-form-duplicator -->
+                        <!-- contact-form-clonebox -->
+                        <div class="contact-form-clonebox p-4 mb-3">
+                          <div class="row">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                              <div class="form-row mx-0 mb-2">
+                                <mat-form-field>
+                                  <input matInput type="text" placeholder="Engineer Name" required formControlName="engineer_name">
+                                  <mat-error *ngIf="eng.controls.engineer_name.errors && eng.controls.engineer_name.errors.required">
+                                    This field is required
+                                  </mat-error>
+                                </mat-form-field>
+                              </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                              <div class="form-row mx-0 mb-2">
+                                <mat-form-field>
+                                  <input matInput type="text" placeholder="Engineer Position" formControlName="engineer_type">
+                                </mat-form-field>
+                              </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                              <div class="form-row mx-0 mb-2">
+                                <mat-form-field>
+                                  <input matInput type="url" placeholder="Facebook Profile" formControlName="fb_profile">
+                                </mat-form-field>
+                              </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                              <div class="form-row mx-0 mb-2">
+                                <mat-form-field>
+                                  <input matInput type="url" placeholder="LinkedIn Profile" formControlName="linkedin_profile">
+                                </mat-form-field>
+                              </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                              <div class="form-row mx-0 mb-2">
+                                <mat-form-field>
+                                  <input matInput type="url" placeholder="Instagram Profile" formControlName="instagram_profile">
+                                </mat-form-field>
+                              </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12"></div>
+
+
+                              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                <div class="form-row d-block mx-0">
+                                  <!-- custom-file-uploader -->
+                                  <div class="custom-file-uploader">
+                                    <label class="custom-file-uploader-label w-100">CV</label>
+                                    <input type="file" accept="application/pdf" class="w-100 h-100" id="cvUploaderFile{{ i }}" (change)="cvUpload($event,i)">
+                                  </div>
+                                  <!-- custom-file-uploader -->
+                                  <div class="d-block mt-2" *ngIf="engineerResources[i][0] && engineerResources[i][0].id !== 0 && engineerResources[i][0].resource_type === 'pdf'">
+                                    <a href="{{ baseImageUrl + engineerResources[i][0].resource_url }}" target="_blank" title="Open CV in new tab">
+                                      <i class="fa fa-file-pdf-o fa-4x text-danger"></i>
+                                    </a>
+                                  </div>
+                                  <div class="d-block mt-2" *ngIf="engineerResources[i][1] && engineerResources[i][1].id !== 0 && engineerResources[i][1].resource_type === 'pdf'">
+                                    <a href="{{ baseImageUrl + engineerResources[i][1].resource_url }}" target="_blank" title="Open CV in new tab">
+                                      <i class="fa fa-file-pdf-o fa-4x text-danger"></i>
+                                    </a>
+                                  </div>
+
+
+                                </div>
+                              </div>
+
+                              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                <div class="form-row d-block mx-0">
+                                  <!-- custom-file-uploader -->
+                                  <div class="custom-file-uploader">
+                                    <label class="custom-file-uploader-label w-100">Profile Picture</label>
+                                    <input type="file" accept=".png, .jpg, .jpeg" class="w-100 h-100" id="profilePicUploader{{ i }}" (change)="profileUpload($event,i)" >
+                                  </div>
+                                  <!-- custom-file-uploader -->
+                                  <div class="d-block mt-2" *ngIf="engineerResources[i][0] && engineerResources[i][0].id !== 0 && engineerResources[i][0].resource_type === 'image'">
+                                    <img src="{{ baseImageUrl + engineerResources[i][0].resource_url }}" alt="profile picture" height="84" width="100" (click)="openMediaModal($event)" class="hover">
+                                  </div>
+
+                                  <div class="d-block mt-2" *ngIf="engineerResources[i][1] && engineerResources[i][1].id !== 0 && engineerResources[i][1].resource_type === 'image'">
+                                    <img src="{{ baseImageUrl + engineerResources[i][1].resource_url }}" alt="profile picture" height="84" width="100" (click)="openMediaModal($event)" class="hover">
+                                  </div>
+
+                                </div>
+                              </div>
+
+                          </div>
+                        </div>
+                      </div>
+                      <!-- contact-form-clonebox -->
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row d-block mx-0 mb-2">
+                  <!-- contact-form-duplicator -->
+                  <div class="contact-form-duplicator row mb-2">
+                    <p class="title w-100">Previous Projects <button type="button" class="btn btn-behance btn-sm ml-2" (click)="selectPreviousProjectImage()">Add New</button></p>
+                    <input type="file" #projectImageInput class="d-none" accept=".jpeg,.jpg,.png" (change)="uploadPreviousProjectImage($event.target.files)">
+                  </div>
+                  <!-- contact-form-duplicator -->
+                </div>
+                <div class="form-row d-block mx-0 mb-2">
+                  <div id="image-wrapper" class="image-wrapper hes-gallery">
+                    <div class="position-relative" *ngFor="let prevProjectImage of previousProjectImages">
+                      <img src="{{ baseImageUrl + prevProjectImage.resource_url }}" alt="previous project" class="img-fluid hover">
+                      <button type="button" class="removeBtn" (click)="removePreviousProjectImage(prevProjectImage)">&times;</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row d-block mx-0 text-center mt-4">
+                  <button mat-button type="button" (click)="goBack()">Cancel</button>
+                  <button class="text-uppercase" mat-raised-button type="submit" color="primary">Submit</button>
+                </div>
+              </form>
+            </div>
+            <!-- consultant-submission-form -->
+          </div>
+          <!-- consultant-submission-holder -->
+        </div>
+        <!-- consultant-submission -->
+      </div>
+    </div>
+    <!-- row -->
+  </div>
+</div>
+<!-- wraper-consultant-submission -->
+

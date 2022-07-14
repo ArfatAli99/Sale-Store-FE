@@ -1,0 +1,257 @@
+/* ========================== */
+/* START OF CONSULTANT SUBMISSION PAGES CSS */
+/* ========================== */
+
+/* wraper-consultant-submission */
+
+.wraper-consultant-submission{
+	min-height:100vh;
+    background-color:#0346b1;
+    
+    * {
+        margin:0 auto;
+    }
+
+	> .container{
+		padding-top:70px;
+		padding-bottom:70px;
+	}
+
+	/* consultant-submission */
+
+	.consultant-submission{
+        background-color:#fff;
+        border-radius:4px;
+
+        /* consultant-submission-holder */
+    
+        .consultant-submission-holder{
+            max-width:900px;
+        }
+
+        /* consultant-submission-header */
+
+        .consultant-submission-header{
+
+            /* brand-logo */
+
+            .brand-logo{
+
+                img{
+                    width:140px;
+                }
+
+            }
+
+            /* section-heading */
+
+            .section-heading{
+                
+                .title{
+                    font-weight:500;
+                    font-size:25px;
+                    color: $SectionSubtitleColor ;
+                }
+
+            }
+
+        }
+
+        /* consultant-submission-form */
+
+        .consultant-submission-form{
+        }
+
+	}
+
+}
+
+/* ========================== */
+/* END OF CONSULTANT SUBMISSION PAGES CSS */
+/* ========================== */
+
+/* ========================== */
+/* START OF RESPONSIVE CSS */
+/* ========================== */
+
+/* EXTRA LARGE DESKTOP PART */
+@media screen and (min-width:1920px){
+}
+
+/* EXTRA LARGE DESKTOP PART */
+@media screen and (min-width:1401px) and (max-width:1919px){
+}
+
+/* LARGE DESKTOP PART */
+@media screen and (min-width:1200px) and (max-width:1400px){
+}
+
+/* DESKTOP PART */
+@media screen and (min-width:992px) and (max-width:1199px){
+}
+
+/* TABLET LANDSCAPE PART */
+@media screen and (min-width:768px) and (max-width:991px){
+
+    /* ========================== */
+    /* START OF CONSULTANT SUBMISSION PAGES CSS */
+    /* ========================== */
+
+    /* wraper-consultant-submission */
+
+    .wraper-consultant-submission{
+
+        > .container{
+            padding-top:50px;
+            padding-bottom:50px;
+        }
+        
+    }
+
+    /* ========================== */
+    /* END OF CONSULTANT SUBMISSION PAGES CSS */
+    /* ========================== */
+
+}
+
+/* TABLET PROTRAIT PART */
+@media screen and (min-width:576px) and (max-width:767px){
+
+    /* ========================== */
+    /* START OF CONSULTANT SUBMISSION PAGES CSS */
+    /* ========================== */
+
+    /* wraper-consultant-submission */
+
+    .wraper-consultant-submission{
+
+        > .container{
+            padding-top:20px;
+            padding-bottom:20px;
+        }
+        
+    }
+
+    /* ========================== */
+    /* END OF CONSULTANT SUBMISSION PAGES CSS */
+    /* ========================== */
+
+}
+
+/* HIGH DEFINITION PHONE PART */
+@media screen and (min-width:480px) and (max-width:575px){
+
+    /* ========================== */
+    /* START OF CONSULTANT SUBMISSION PAGES CSS */
+    /* ========================== */
+
+    /* wraper-consultant-submission */
+
+    .wraper-consultant-submission{
+
+        > .container{
+            padding-top:20px;
+            padding-bottom:20px;
+        }
+
+        /* consultant-submission */
+
+        .consultant-submission{
+
+            /* consultant-submission-header */
+
+            .consultant-submission-header{
+
+                /* brand-logo */
+
+                .brand-logo{
+                    img{
+                        width:110px;
+                    }
+
+                }
+
+                /* section-heading */
+
+                .section-heading{
+                    
+                    .title{
+                        font-size:20px;
+                    }
+
+                }
+
+            }
+            
+        }
+        
+    }
+
+    /* ========================== */
+    /* END OF CONSULTANT SUBMISSION PAGES CSS */
+    /* ========================== */
+
+}
+
+/* SMART PHONE LANDSCAPE PART */
+@media screen and (max-width:479px){
+
+    /* ========================== */
+    /* START OF CONSULTANT SUBMISSION PAGES CSS */
+    /* ========================== */
+
+    /* wraper-consultant-submission */
+
+    .wraper-consultant-submission{
+
+        > .container{
+            padding-top:20px;
+            padding-bottom:20px;
+        }
+
+        /* consultant-submission */
+
+        .consultant-submission{
+
+            /* consultant-submission-header */
+
+            .consultant-submission-header{
+
+                /* brand-logo */
+
+                .brand-logo{
+                    img{
+                        width:110px;
+                    }
+
+                }
+
+                /* section-heading */
+
+                .section-heading{
+                    
+                    .title{
+                        font-size:20px;
+                    }
+
+                }
+
+            }
+            
+        }
+        
+    }
+
+    /* ========================== */
+    /* END OF CONSULTANT SUBMISSION PAGES CSS */
+    /* ========================== */
+
+}
+
+/* SMART PHONE LANDSCAPE PART */
+@media (max-width:812px) and (orientation:landscape){
+}
+
+/* ========================== */
+/* END OF RESPONSIVE CSS */
+/* ========================== */

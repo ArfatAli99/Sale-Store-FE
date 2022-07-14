@@ -1,0 +1,14 @@
+.invalid-feedback {
+    display: block;
+}
+
+.autocomplete-box {
+    position: absolute;
+    z-index: 2;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.autocomplete-box .list-group-item:hover {
+    background-color: whitesmoke;
+}

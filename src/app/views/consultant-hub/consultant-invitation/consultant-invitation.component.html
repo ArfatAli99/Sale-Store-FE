@@ -1,0 +1,81 @@
+<div class="animated fadeIn">
+  <div class="card">
+
+    <div class="card-header">
+
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Consultant Email</span>
+        </div>
+        <input type="text" class="form-control" name="search_text" [(ngModel)]="search_text" placeholder="Search"
+          (keyup.enter)="search()">
+
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="reset" (click)="clearAll()">Clear</button>
+          <button class="btn btn-brand btn-sm btn-primary" type="button" (click)="search()">Search</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-table">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">id</th>
+            <th scope="col">Email</th>
+            <th scope="col">Date Created</th>
+            <th scope="col">Current Status</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let invitation of invitationDetails; let i = index">
+            <td><strong>{{((pageOffset-1)*limitPerPage)+i+1}}</strong></td>
+            <td>{{ invitation.id }}</td>
+            <td>{{ invitation.ref_email}}</td>
+            <td>{{ invitation.createdAt | date:'medium' }}</td>
+            <!-- <td>{{ invitation.is_expired}}</td> -->
+
+            <td>
+              <!-- <span *ngIf="invitation.is_verified==1">Registered</span>
+              <span *ngIf="invitation.is_verified==0">Not Registered</span> -->
+              <span class="badge badge-success" *ngIf="invitation.is_verified==1">REGISTERED</span>
+              <span class="badge badge-danger" *ngIf="invitation.is_verified==0">NOT REGISTERED</span>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- pagination -->
+
+    <div class="card-body" *ngIf="invitationDetails.length == 0">
+      <div class="alert alert-danger mb-0" role="alert">Sorry! No data to display.</div>
+    </div>
+
+    <div class="card-footer" *ngIf="countTotalPage != 0 && countTotalPage>limitPerPage">
+
+      <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+        <li class="page-item disabled" [ngClass]="{disabled:pager.currentPage === 1}">
+          <a class="page-link" (click)="setPage(1)">&laquo;</a>
+        </li>
+        <li class="page-item disabled" [ngClass]="{disabled:pager.currentPage === 1}">
+          <a class="page-link" (click)="setPage(pager.currentPage - 1)">&lsaquo;</a>
+        </li>
+        <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+          <a class="page-link" (click)="setPage(page)">{{page}}</a>
+        </li>
+
+        <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+          <a class="page-link" (click)="setPage(pager.currentPage + 1)">&rsaquo;</a>
+        </li>
+        <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+          <a class="page-link" (click)="setPage(pager.totalPages)">&raquo;</a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</div>

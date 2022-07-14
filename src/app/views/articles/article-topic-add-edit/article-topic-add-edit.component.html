@@ -1,0 +1,65 @@
+<div class="row justify-content-center">
+    <div class="col-md-10">
+      <div class="card">
+        <div class="card-body">
+
+          <form class="example-form" [formGroup]="addEditForm" autocomplete="off">
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Name</label>
+                  <input placeholder="Please Enter Name" formControlName="name" type="text"
+                    class="form-control" [ngClass]="{ 'is-invalid': submitted && addEditArticleTopic.name.errors }" required>
+                  <div *ngIf="submitted && addEditArticleTopic.name.errors" class="invalid-feedback">
+                    <div *ngIf="addEditArticleTopic.name.errors.required">required</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="grade">Description</label>
+                    <textarea placeholder="Please Enter description" formControlName="description" type="text" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && addEditArticleTopic.description.errors }" required></textarea>
+                    <div *ngIf="submitted && addEditArticleTopic.description.errors" class="invalid-feedback">
+                      <div *ngIf="addEditArticleTopic.description.errors.required">required</div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <div class="row" *ngIf="button_name=='Update'">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="cylinder">Status</label>
+                  <select class="form-control" formControlName="status"
+                    [ngClass]="{ 'is-invalid': submitted && addEditArticleTopic.status.invalid }" required>
+                    <option value="" disabled selected>Select Status</option>
+                    <option  value="1">Active</option>
+                    <option  value="0">Deactive</option>
+                  </select>
+
+                  <div *ngIf="submitted && addEditArticleTopic.status.invalid" class="invalid-feedback">
+                    <div *ngIf="addEditArticleTopic.status.errors.required">required</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <button type="submit" class="btn btn-primary mx-1" (click)="addOrEditArticleTopicDetails()">{{button_name}}</button>
+                <button type="button"  class="btn btn-primary mx-1" (click)="goBack()">Back</button>
+              </div>
+              <div class="col-md-6">
+              </div>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+
+    </div>
+  </div>

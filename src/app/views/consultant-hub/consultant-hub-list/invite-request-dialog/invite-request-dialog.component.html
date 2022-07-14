@@ -1,0 +1,48 @@
+
+<h1 mat-dialog-title>Invitation Request</h1>
+
+<div class="row justify-content-center">
+  <div class="col-md-10">
+    <div class="card">
+      <div class="card-body">
+
+        <form class="example-form" [formGroup]="inviteRequestForm" autocomplete="off">
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Name</label>
+                <input placeholder="Please Enter Full Name" formControlName="fullName" type="text" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && inviteRequestFormController.fullName.errors }" required>
+                <div *ngIf="submitted && inviteRequestFormController.fullName.errors" class="invalid-feedback">
+                  <div *ngIf="inviteRequestFormController.fullName.errors.required">required</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Email</label>
+                <input placeholder="Please Enter email" formControlName="email" type="text" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && inviteRequestFormController.email.errors }" required>
+                <div *ngIf="submitted && inviteRequestFormController.email.errors" class="invalid-feedback">
+                  <div *ngIf="inviteRequestFormController.email.errors.required">required</div>
+                  <div *ngIf="inviteRequestFormController.email.errors.pattern"> Invalid email.</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <button class="btn btn-primary mx-1" (click)="submit()">Submit</button>
+            <button class="btn btn-primary mx-1" (click)="onNoClick()">Back</button>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,95 @@
+<div class="animated fadeIn">
+  <div class="card">
+
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h2 class="card-header-headingText">{{cardTitle}}</h2>
+    </div>
+
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12 mb-5">
+          <form [formGroup]="addPageForm" (ngSubmit)="handlePage()">
+
+            <div class="form-group">
+              <label for="page_title">Add Icon</label>
+              <div class="d-block" *ngIf="logoUrl">
+                <img [src]="logoUrl" alt="logo" class="img-fluid mb-3" #imageElem width="160" >
+              </div>
+
+              <div class="input-group mb-3">
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" accept=".jpeg,.jpg,.png" (change)="postMethod($event.target.files)">
+                  <label class="custom-file-label" for="inputGroupFile01">{{ fileName }}</label>
+                </div>
+                <input type="hidden" formControlName="pageLogoUrl">
+              </div>
+              <div *ngIf="formSubmitted && formControls.pageLogoUrl.invalid" class="invalid-feedback">
+                <div *ngIf="formControls.pageLogoUrl.errors.required">Please select an icon</div>
+              </div>
+              <small class="form-text text-muted">Tip: For better display, logo size should be 60x53 pixels</small>
+            </div>
+
+            <div class="form-group">
+              <label class="custom-label">Block Type <span class="text-danger">*</span></label>
+              <select class="custom-select" formControlName="type">
+                <option value=""></option>
+                <option value="1">Design</option>
+                <option value="2">Tendering</option>
+                <option value="3">Project Management</option>
+              </select>
+              <div *ngIf="formSubmitted && formControls.type.invalid" class="invalid-feedback">
+                <div *ngIf="formControls.type.errors.required">Please select type</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="custom-label">Block Name <span class="text-danger">*</span></label>
+              <input formControlName="title" type="text" class="form-control">
+              <div *ngIf="formSubmitted && formControls.title.invalid" class="invalid-feedback">
+                <div *ngIf="formControls.title.errors.required">Please enter title</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="custom-label">Block Name (in Arabic) <span class="text-danger">*</span></label>
+              <input formControlName="titleArabic" type="text" class="form-control">
+              <div *ngIf="formSubmitted && formControls.titleArabic.invalid" class="invalid-feedback">
+                <div *ngIf="formControls.titleArabic.errors.required">Please enter arabic title</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label >Description <span class="text-danger">*</span></label>
+              <textarea class="form-control" rows="4" formControlName="description"></textarea>
+              <div *ngIf="formSubmitted && formControls.description.invalid" class="invalid-feedback">
+                <div *ngIf="formControls.description.errors.required">Please enter description</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label >Description (in Arabic) <span class="text-danger">*</span></label>
+              <textarea class="form-control" rows="4" formControlName="descriptionArabic"></textarea>
+              <div *ngIf="formSubmitted && formControls.descriptionArabic.invalid" class="invalid-feedback">
+                <div *ngIf="formControls.descriptionArabic.errors.required">Please enter arabic description</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label >Link</label>
+              <input formControlName="link" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+              <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="customSwitch1" formControlName="isActive" [checked]="! blockId">
+                <label class="custom-control-label" for="customSwitch1">Mark as active</label>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">{{submitBtnText}}</button>
+            <button class="btn btn-danger mx-1" type="button" (click)="goBack()">Back</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

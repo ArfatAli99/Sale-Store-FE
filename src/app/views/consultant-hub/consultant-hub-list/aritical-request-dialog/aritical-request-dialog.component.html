@@ -1,0 +1,43 @@
+<h1 mat-dialog-title>Article Shared</h1>
+
+<div class="row justify-content-center">
+  <div class="col-md-10">
+    <div class="card">
+      <div class="card-body">
+
+        <form class="example-form" [formGroup]="inviteArticleTopicRequestForm" autocomplete="off">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="cylinder">Article Topic</label>
+                <select class="form-control" formControlName="article_topic"
+                  [ngClass]="{ 'is-invalid': submitted && articleTopicRequestController.article_topic.invalid }"
+                  required>
+                  <option value="" disabled selected>Select Article Topic</option>
+                  <option *ngFor="let indvArticleTopic of articlesTopicListDetails" value="{{indvArticleTopic.id}}">
+                    {{indvArticleTopic.name}}</option>
+                </select>
+
+                <div *ngIf="submitted && articleTopicRequestController.article_topic.invalid" class="invalid-feedback">
+                  <div *ngIf="articleTopicRequestController.article_topic.errors.required">required</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <!-- <div class="col-md-12"> -->
+            <button class="btn btn-primary mx-1" (click)="submit()">Submit</button>
+            <button class="btn btn-primary mx-1" (click)="onNoClick()">Back</button>
+            <!-- </div> -->
+
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,162 @@
+
+
+
+<div class="animated fadeIn">
+  <div class="card">
+    <div class="card-header">
+      <h5>List of Tasks <button type="button" class="btn btn-primary btn-sm ml-1" (click)="openTaskModal()">Add Task</button></h5>
+    </div>
+    <div class="card-table">
+      <table class="table">
+        <thead>
+            <tr>
+              <th>No.</th>
+              <th>Task Name</th>
+              <th>Status</th>
+              <th>Type</th>
+              <th>Assignee</th>
+              <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let task of taskDetails; let j=index">
+              <td> {{j+1}}</td>
+              <td>{{task.name}}</td>
+              <td>{{ taskStatuses[task.status - 1] }}</td>
+              <td>{{task.Type}}</td>
+              <td>{{task.assignee}}</td>
+              <td>
+                  <button class="btn btn-info btn-sm text-white mr-1" (click)="editTask(task)">Edit</button>    
+                  <a class="btn btn-danger btn-sm text-white ml-1 hover"
+                  (click)="deleteTemplateList(task, confirmationModalTemplate)">Delete</a>                   
+              </td>
+            </tr>
+            <tr *ngIf="taskDetails.length == 0">
+              <td colspan="6" align="center">No data to display</td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+   
+
+
+
+   <!-- Task Modal -->
+<div class="modal fade" id="taskModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="taskModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form [formGroup]="taskForm" (ngSubmit)="addNewTask()">
+        <div class="modal-header">
+          <h5 class="modal-title" id="taskModalTitle">{{ taskBtnText }}</h5>
+          <button type="button" class="close" (click)="closeTaskModal()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="task_name">Task Name <span class="text-danger">*</span></label>
+                <input type="text" id="task_name" class="form-control" formControlName="taskName">
+                <div *ngIf="taskFormSubmitted && taskFormControls.taskName.invalid" class="invalid-feedback">
+                  <div *ngIf="taskFormControls.taskName.errors.required">Please enter task name</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="task_name_arabic">Task Name (in Arabic) <span class="text-danger">*</span></label>
+                <input type="text" id="task_name_arabic" class="form-control" formControlName="taskNameArabic">
+                <div *ngIf="taskFormSubmitted && taskFormControls.taskNameArabic.invalid" class="invalid-feedback">
+                  <div *ngIf="taskFormControls.taskNameArabic.errors.required">Please enter task name in arabic</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="task_type">Task Type <span class="text-danger">*</span></label>
+                <select id="task_type" class="custom-select" formControlName="taskType">
+                  <option value="{{ taskType }}" *ngFor="let taskType of taskTypes">{{ taskType }}</option>
+                </select>
+                <div *ngIf="taskFormSubmitted && taskFormControls.taskType.invalid" class="invalid-feedback">
+                  <div *ngIf="taskFormControls.taskType.errors.required">Please select task type</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="task_type_arabic">Task Type (in Arabic) <span class="text-danger">*</span></label>
+                <select id="task_type_arabic" class="custom-select" formControlName="taskTypeArabic">
+                  <option value="{{ taskType }}" *ngFor="let taskType of taskTypesArabic">{{ taskType }}</option>
+                </select>
+                <div *ngIf="taskFormSubmitted && taskFormControls.taskTypeArabic.invalid" class="invalid-feedback">
+                  <div *ngIf="taskFormControls.taskTypeArabic.errors.required">Please select task type (in Arabic)</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="task_instruction">Task Instruction</label>
+                <textarea id="task_instruction" class="form-control" rows="3" formControlName="taskInstruction"></textarea>
+                <div *ngIf="taskFormSubmitted && taskFormControls.taskInstruction.invalid" class="invalid-feedback">
+                  <div *ngIf="taskFormControls.taskInstruction.errors.required">Please enter task instruction</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="task_instruction_arabic">Task Instruction (in Arabic)</label>
+                <textarea id="task_instruction_arabic" class="form-control" rows="3" formControlName="taskInstructionArabic"></textarea>
+                <div *ngIf="taskFormSubmitted && taskFormControls.taskInstructionArabic.invalid" class="invalid-feedback">
+                  <div *ngIf="taskFormControls.taskInstructionArabic.errors.required">Please enter task instruction in arabic</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="assignee">Assignee <span class="text-danger">*</span></label>
+                <select id="assignee" class="custom-select" formControlName="assignee">
+                  <option value="Contractor">Contractor</option>
+                  <option value="Client">Client</option>
+                  <option value="Consultant">Consultant</option>
+                </select>
+                <div *ngIf="taskFormSubmitted && taskFormControls.assignee.invalid" class="invalid-feedback">
+                  <div *ngIf="taskFormControls.assignee.errors.required">Please select assignee</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="task_status">Task Status <span class="text-danger">*</span></label>
+                <select id="task_status" class="custom-select" formControlName="taskStatus">
+                  <option value="{{ i + 1 }}" *ngFor="let taskStatus of taskStatuses; let i = index">{{ taskStatus }}</option>
+                </select>
+                <div *ngIf="taskFormSubmitted && taskFormControls.taskStatus.invalid" class="invalid-feedback">
+                  <div *ngIf="taskFormControls.taskStatus.errors.required">Please select task status</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeTaskModal()">Close</button>
+          <button type="submit" class="btn btn-primary">{{ taskBtnText }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #confirmationModalTemplate>
+  <div class="modal-body text-center">
+    <p>Do you want to confirm?</p>
+    <button type="button" class="btn btn-default" (click)="confirm()">Yes</button>
+    <button type="button" class="btn btn-primary" (click)="decline()">No</button>
+  </div>
+</ng-template>

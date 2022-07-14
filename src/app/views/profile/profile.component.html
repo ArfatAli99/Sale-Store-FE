@@ -1,0 +1,80 @@
+<div class="row justify-content-center">
+	<div class="col-md-6">
+		<div class="card">
+			<div class="card-body">
+				<form class="example-form" [formGroup]="profileForm" autocomplete="off">
+
+					<div class="form-group text-center">
+						<label class="d-block" for="password">Profile Image</label>
+						<div class="imgSetting-imgupload-wrap mx-auto">
+							<div class="img-holder" (click)="triggerFileInputClick()">
+								<img *ngIf="imageUrl" src="{{imageUrl}}">
+							</div>
+							<input type="file" class="form-control" #Image accept="image/x-png,image/jpeg,image/jpg"
+								(change)="handleFileInput($event.target.files)" />
+							<span *ngIf="imageUrl" class="icon-pencil"></span>
+						</div>
+					</div>
+
+					<div class="form-row">
+
+						<div class="form-group col-md-6">
+							<label>Uesr Name</label>
+							<input placeholder="Name" formControlName="name" type="text" class="form-control"
+								[ngClass]="{ 'is-invalid': submitted && profileController.name.errors }" required>
+							<div *ngIf="submitted && profileController.name.errors" class="invalid-feedback">
+								<div *ngIf="profileController.name.errors.required">Name is required</div>
+							</div>
+						</div>
+
+						<div class="form-group col-md-6">
+							<label for="phonenumber">Phone Number</label>
+							<input placeholder="Please enter Pnone number" formControlName="phone" type="text"
+								(keypress)=_keyPress($event) class="form-control"
+								[ngClass]="{ 'is-invalid': submitted && profileController.phone.errors }" required>
+							<div *ngIf="submitted && profileController.phone.errors" class="invalid-feedback">
+								<div *ngIf="profileController.phone.errors.required">Phone number is required</div>
+								<div *ngIf="profileController.phone.errors.pattern">Phone number must be 8 digit</div>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="form-row">
+						<div class="form-group col-md-12">
+							<label for="loginid">Email</label>
+							<input placeholder="Please Enter email" formControlName="email" type="text"
+								class="form-control"
+								[ngClass]="{ 'is-invalid': submitted && profileController.email.errors }" required>
+							<div *ngIf="submitted && profileController.email.errors" class="invalid-feedback">
+								<div *ngIf="profileController.email.errors.required"> Email is required</div>
+								<div *ngIf="profileController.email.errors.pattern"> Invalid email address.</div>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="form-row">
+						<div class="form-group col-md-12">
+							<label for="password">Address</label>
+							<textarea class="form-control" rows="3" formControlName="address"></textarea>
+							<div *ngIf="submitted && profileController.address.invalid" class="invalid-feedback">
+								<div *ngIf="profileController.address.errors.required">Address is required</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group text-center">
+								<button type="submit" class="btn btn-primary"
+									(click)="updateAdminProfileInfo()">Update</button>
+							</div>
+						</div>
+
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

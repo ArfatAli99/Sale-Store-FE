@@ -1,0 +1,17 @@
+export const GLOBAL1 = {
+    emailPattern: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
+    phoneNumberPattern: "^[0-9]{8}$",
+    phoneNumber:"^(\+\d{1,3}[- ]?)?\d{10}$",
+    passwordPattern: /^$|^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*[!@#$%^&*]).{8,}$/,
+//   passwordPattern: /^$|^(?=.*?[A-Z])(?=.*[!@#$%^&*]).{8,}$/,
+    countryList: [{ id: 'America', name: 'America' },{ id: 'Asia', name: 'Asia' },{ id: 'Europe', name: 'Europe' }],
+    cylinderList: [{ id: 4, name: 4 }, { id: 5, name: 5 }, { id: 6, name: 6 }, { id: 8, name: 8 }],
+    bookingItemLimit:12,
+    carItemLimit:10,
+    workshopItemLimit:10,
+    timeSlotItemLimit:10,
+    serviceListItemLimit:10,
+    packageTypeItemLimit:10,
+    packageItemLimit:10,
+    // emailPattern = /^[a-zA-Z0-9.]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,20}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,5}[a-zA-Z0-9])?)*$/ig,
+} 

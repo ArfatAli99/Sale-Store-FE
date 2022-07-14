@@ -1,0 +1,144 @@
+<div class="animated fadeIn">
+  <div class="d-block mb-3">
+    <h4 class="card-header-headingText d-inline-block">Language Strings</h4>
+    <div class="btn-holder float-right">
+      <a [routerLink]="['/languages/add']" class="btn btn-brand btn-success"><i class="fa fa-plus"></i> <span>Add New String</span></a>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Language Strings</span>
+        </div>
+        <input type="text" class="form-control" name="search_text" [(ngModel)]="search_text" placeholder="Search..." (keyup.enter)="search()">
+        <select class="custom-select" name="group_name" [(ngModel)]="group_name">
+          <option value="">Select Group</option>
+          <option value="{{ languageGroup.key }}" *ngFor="let languageGroup of languageGroups | async">{{ languageGroup.value }}</option>
+        </select>
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="reset" (click)="clearAll()">Clear</button>
+          <button class="btn btn-brand btn-sm btn-primary" type="button" (click)="search()">Search</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-table">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Group Name</th>
+              <th scope="col">Language Key</th>
+              <th scope="col">In English</th>
+              <th scope="col">In Arabic</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let language of languages; let i = index">
+              <th scope="row">{{((pageOffset-1)*limitPerPage)+i+1}}</th>
+              <td>{{ language.group_name }}</td>
+              <td>{{ language.field_key }}</td>
+              <td [title]="language.english">{{ language.english | truncate: 15 }}</td>
+              <td [title]="language.arabic">{{ language.arabic | truncate: 15 }}</td>
+              <td>
+                <!-- <a class="btn btn-outline-primary btn-sm" routerLink="/languages/edit/{{ language.id }}" [state]="{page: pageOffset}">Edit String</a> -->
+                <a class="btn btn-outline-primary btn-sm hover" (click)="openLanguageModal(i)">Edit String</a>
+              </td>
+            </tr>
+  
+            <tr *ngIf="languages.length === 0">
+              <td colspan="6" align="center">No language string found.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card-footer" *ngIf="countTotalPage != 0 && countTotalPage>limitPerPage">
+        <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+          <li class="page-item disabled" [ngClass]="{disabled:pager.currentPage === 1}">
+            <a class="page-link" (click)="setPage(1)">&laquo;</a>
+          </li>
+          <li class="page-item disabled" [ngClass]="{disabled:pager.currentPage === 1}">
+            <a class="page-link" (click)="setPage(pager.currentPage - 1)">&lsaquo;</a>
+          </li>
+          <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+            <a class="page-link" (click)="setPage(page)">{{page}}</a>
+          </li>
+
+          <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+            <a class="page-link" (click)="setPage(pager.currentPage + 1)">&rsaquo;</a>
+          </li>
+          <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+            <a class="page-link" (click)="setPage(pager.totalPages)">&raquo;</a>
+          </li>
+          <li class="page-item pl-31">
+            <input type="number" class="form-control ml-2" [(ngModel)]="page_no" placeholder="Go To" min="1" max="{{ pager.totalPages }}" (keyup.enter)="setPage(+$event.target.value)">
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="languageModal" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form [formGroup]="languageForm" (ngSubmit)="updateLanguage()">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Language String</h5>
+          <button type="button" class="close" (click)="closeLanguageModal()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="group_name">Group Name <span class="text-danger">*</span></label>
+            <select id="group_name" class="custom-select" formControlName="groupName">
+              <option value=""></option>
+              <option value="{{ languageGroup.key }}" *ngFor="let languageGroup of languageGroups | async">{{ languageGroup.value }}</option>
+            </select>
+            <div *ngIf="languageFormSubmitted && formControls.groupName.invalid" class="invalid-feedback">
+              <div *ngIf="formControls.groupName.errors.required">Please select group name</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="language_key">Language Key <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="language_key" formControlName="languageKey" [readonly]="languageId" />
+            <div *ngIf="languageFormSubmitted && formControls.languageKey.invalid" class="invalid-feedback">
+              <div *ngIf="formControls.languageKey.errors.required">Please enter language key</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="english_string">English String <span class="text-danger">*</span></label>
+            <textarea id="english_string" class="form-control" rows="4" formControlName="englishKey"></textarea>
+            <div *ngIf="languageFormSubmitted && formControls.englishKey.invalid" class="invalid-feedback">
+              <div *ngIf="formControls.englishKey.errors.required">Please enter english string</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="arabic_string">Arabic String <span class="text-danger">*</span></label>
+            <textarea id="arabic_string" class="form-control" rows="4" formControlName="arabicKey"></textarea>
+            <div *ngIf="languageFormSubmitted && formControls.arabicKey.invalid" class="invalid-feedback">
+              <div *ngIf="formControls.arabicKey.errors.required">Please enter arabic string</div>
+            </div>
+          </div>
+          <div class="custom-control custom-switch mb-3">
+            <input type="checkbox" class="custom-control-input" id="customSwitch1" formControlName="isActive">
+            <label class="custom-control-label" for="customSwitch1">Active</label>
+          </div>
+
+          <div class="d-block">
+            <button type="submit" class="btn btn-primary">Update</button>
+            <button class="btn btn-danger ml-2" type="button" (click)="closeLanguageModal()">Close</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

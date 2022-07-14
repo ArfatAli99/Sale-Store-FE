@@ -1,0 +1,71 @@
+<div class="animated fadeIn">
+  <div class="card">
+
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h2 class="card-header-headingText">Partners Logo</h2>
+      <div class="btn-holder">
+        <a [routerLink]="['/partners-logo/add']" class="btn btn-brand btn-success"><i class="fa fa-plus"></i> <span>Add New Logo</span></a>
+      </div>
+    </div>
+
+    <div class="card-table">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Partner Logo</th>
+              <th scope="col">Is Active?</th>
+              <th scope="col">Last Updated</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let logo of logos; let i = index">
+              <th scope="row">{{((pageOffset-1)*limitPerPage)+i+1}}</th>
+              <td>
+                <img src="{{ baseImageUrl + logo.resource_url }}" alt="" width="84" onerror="this.src='assets/no_image.gif'">
+              </td>
+              <td>
+                <i class="fa fa-check-circle fa-2x text-success" *ngIf="logo.is_active; else inActive"></i>
+                <ng-template #inActive>
+                  <i class="fa fa-times-circle fa-2x text-danger"></i>
+                </ng-template>
+              </td>
+              <td>{{ logo.updatedAt | date:'medium' }}</td>
+              <td>
+                <a class="btn btn-outline-primary btn-sm" routerLink="/partners-logo/edit/{{ logo.id }}" [state]="{page: pageOffset}">Edit Logo</a>
+              </td>
+            </tr>
+  
+            <tr *ngIf="logos.length === 0"><td colspan="5" align="center">No logo found.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card-footer" *ngIf="countTotalPage != 0 && countTotalPage>limitPerPage">
+
+        <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+          <li class="page-item disabled" [ngClass]="{disabled:pager.currentPage === 1}">
+            <a class="page-link" (click)="setPage(1)">&laquo;</a>
+          </li>
+          <li class="page-item disabled" [ngClass]="{disabled:pager.currentPage === 1}">
+            <a class="page-link" (click)="setPage(pager.currentPage - 1)">&lsaquo;</a>
+          </li>
+          <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+            <a class="page-link" (click)="setPage(page)">{{page}}</a>
+          </li>
+
+          <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+            <a class="page-link" (click)="setPage(pager.currentPage + 1)">&rsaquo;</a>
+          </li>
+          <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+            <a class="page-link" (click)="setPage(pager.totalPages)">&raquo;</a>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </div>
+
+</div>

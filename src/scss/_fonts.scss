@@ -1,0 +1,56 @@
+/* ebinaa-icons */
+
+@font-face{
+    font-family:'ebinaa-icons';
+    src:url('assets/fonts/ebinaa-icons.eot?6799211');
+    src:url('assets/fonts/ebinaa-icons.eot?6799211#iefix') format('embedded-opentype'),
+        url('assets/fonts/ebinaa-icons.woff2?6799211') format('woff2'),
+        url('assets/fonts/ebinaa-icons.woff?6799211') format('woff'),
+        url('assets/fonts/ebinaa-icons.ttf?6799211') format('truetype'),
+        url('assets/fonts/ebinaa-icons.svg?6799211#ebinaa-icons') format('svg');
+    font-weight:normal;
+    font-style:normal;
+    font-display:swap;
+}
+
+[class^="ebi-"]:before, [class*=" ebi-"]:before{
+    font-family:"ebinaa-icons";
+    font-style:normal;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+}
+
+.ebi-consultant-icon:before { content: '\e800'; } /* '' */
+.ebi-right-arrow:before { content: '\e801'; } /* '' */
+.ebi-check-line:before { content: '\e802'; } /* '' */
+.ebi-eye-cross-line:before { content: '\e803'; } /* '' */
+.ebi-eye-line:before { content: '\e804'; } /* '' */
+.ebi-client-icon:before { content: '\e805'; } /* '' */
+.ebi-play-line:before { content: '\e806'; } /* '' */
+.ebi-settings-line:before { content: '\e807'; } /* '' */
+.ebi-target-line:before { content: '\e808'; } /* '' */
+.ebi-sketch-line:before { content: '\e809'; } /* '' */
+.ebi-down-caret-line:before { content: '\e80a'; } /* '' */
+.ebi-whatsapp-line:before { content: '\e80b'; } /* '' */
+.ebi-envelope-line:before { content: '\e80c'; } /* '' */
+.ebi-contractor-icon:before { content: '\e80d'; } /* '' */
+.ebi-light-arrow:before { content: '\e80e'; } /* '' */
+.ebi-sort-line:before { content: '\e80f'; } /* '' */
+.ebi-info-line:before { content: '\e810'; } /* '' */
+.ebi-bell-line:before { content: '\e811'; } /* '' */
+.ebi-filter-line:before { content: '\e812'; } /* '' */
+.ebi-download-line:before { content: '\e813'; } /* '' */
+.ebi-plus-line:before { content: '\e814'; } /* '' */
+.ebi-search-icon:before { content: '\e815'; } /* '' */
+.ebi-image-upload-line:before { content: '\e816'; } /* '' */
+.ebi-check-circle-line:before { content: '\e817'; } /* '' */
+.ebi-company-icon-line-1:before { content: '\e818'; } /* '' */
+.ebi-company-icon-line-2:before { content: '\e819'; } /* '' */
+.ebi-dashboard-line:before { content: '\e81a'; } /* '' */
+.ebi-print-line:before { content: '\e81b'; } /* '' */
+.ebi-find-new-project-line:before { content: '\e81c'; } /* '' */
+.ebi-question-circle-line:before { content: '\e81d'; } /* '' */
+
+/* ========================== */
+/* END OF CUSTOM FONTS CSS */
+/* ========================== */

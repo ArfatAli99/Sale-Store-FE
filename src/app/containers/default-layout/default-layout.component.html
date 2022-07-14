@@ -1,0 +1,52 @@
+<app-header [navbarBrandRouterLink]="['/pages']" [fixed]="true"
+  [navbarBrandFull]="{src: 'assets/img/brand/app-icon-192x192.png', width: 28, height: 25, alt: 'Extreme Performance Logo'}"
+  [navbarBrandMinimized]="{src: 'assets/img/brand/app-icon-192x192.png', width: 30, height: 30, alt: 'CoreUI Logo'}"
+  [sidebarToggler]="'lg'" [asideMenuToggler]="false">
+  <ul class="nav navbar-nav ml-auto">
+    <li class="nav-item dropdown" dropdown placement="bottom right">
+      <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
+        dropdownToggle (click)="false">
+        <img src="assets/img/avatars/6.jpg" class="img-avatar" alt="" />
+      </a>
+      <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
+        <a class="dropdown-item d-none" href="javascript::void(0)" routerLink="/profile"><i class="fa fa-user-o"></i>
+          Profile</a>
+        <a class="dropdown-item d-none" href="javascript::void(0)" routerLink="/change-password"><i class="fa fa-wrench"></i>
+          Change Password</a>
+        <a class="dropdown-item" href="javascript::void(0)" (click)="logout()"><i class="fa fa-lock"></i> Logout</a>
+      </div>
+    </li>
+  </ul>
+</app-header>
+<div class="app-body">
+  <app-sidebar [fixed]="true" [display]="'lg'">
+    <app-sidebar-nav [navItems]="navItems" [perfectScrollbar] [disabled]="sidebarMinimized"></app-sidebar-nav>
+    <app-sidebar-minimizer></app-sidebar-minimizer>
+  </app-sidebar>
+  <!-- Main content -->
+  <main class="main">
+
+    <ol class="breadcrumb">
+      <li *ngFor="let breadcrumb of breadcrumbList;let i=index" class="breadcrumb-item"
+        [ngClass]="{'active': i<breadcrumbList.length-1}" aria-current="page">
+        <a *ngIf="i<breadcrumbList.length-1; else lastRoute" [routerLink]="[breadcrumb.path]" routerLinkActive="active">
+          {{ breadcrumb.name }}
+        </a>
+        <ng-template #lastRoute>{{ breadcrumb.name }}</ng-template>
+      </li>
+    </ol>
+
+    <div class="container-fluid">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+
+</div>
+<app-footer>
+  <!-- <span><a href="https://coreui.io">CoreUI</a> &copy; 2018 creativeLabs.</span>
+  <span class="ml-auto">Powered by <a href="https://coreui.io/angular">CoreUI for Angular</a></span> -->
+</app-footer>
+
+<!-- LOADING CUSTOME SPINNER -->
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="cog">
+</ngx-spinner>

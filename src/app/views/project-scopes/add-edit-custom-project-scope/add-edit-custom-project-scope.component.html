@@ -1,0 +1,73 @@
+<div class="animated fadeIn">
+  <div class="card">
+
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h2 class="card-header-headingText">{{ cardTitle }}</h2>
+    </div>
+
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12 mb-5">
+          <form [formGroup]="projectScopeForm" (ngSubmit)="submitForm()">
+            <div class="form-group">
+              <label for="type">Type</label>
+              <select id="type" class="custom-select" formControlName="type">
+                <option value="2">Custom</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="scope_type">Scope Type</label>
+              <select id="scope_type" class="custom-select" formControlName="scopeType">
+                <option value="1">Choice</option>
+                <option value="2">Question</option>
+                <option value="3">Notes</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="group_name">Group Name</label>
+              <select id="group_name" class="custom-select" formControlName="groupName">
+                <option value="custom_scope">Custom Scope</option>
+                <option value="electrical_items_by_contractor">Electrical Items By Contractor</option>
+                <option value="plumbing_by_contractor">Plumbing By Contractor</option>
+                <option value="finishing_by_contractor">Finishing By Contractor</option>
+                <option value="electrical_items_by_one_party">Electrical Items By One Party</option>
+                <option value="finishing_by_one_party">Finishing By One Party</option>
+              </select>
+            </div>
+            <div class="form-group" [ngClass]="isQuestionOptionSelected ? '' : 'd-none'">
+              <label for="question">Question <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="question" formControlName="question" />
+              <div *ngIf="projectScopeFormSubmitted && projectScopeFormControls.question.invalid" class="invalid-feedback">
+                <div *ngIf="projectScopeFormControls.question.errors.required">Please enter question</div>
+              </div>
+            </div>
+            <div class="form-group" [ngClass]="isQuestionOptionSelected ? '' : 'd-none'">
+              <label for="question_arabic">Question (in Arabic) <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="question_arabic" formControlName="questionInArabic" />
+              <div *ngIf="projectScopeFormSubmitted && projectScopeFormControls.questionInArabic.invalid" class="invalid-feedback">
+                <div *ngIf="projectScopeFormControls.questionInArabic.errors.required">Please enter question in arabic</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="sow_name">SOW Name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="sow_name" formControlName="scopeDetails" />
+              <div *ngIf="projectScopeFormSubmitted && projectScopeFormControls.scopeDetails.invalid" class="invalid-feedback">
+                <div *ngIf="projectScopeFormControls.scopeDetails.errors.required">Please enter sow name</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="sow_name_arabic">SOW Name (in Arabic) <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="sow_name_arabic" formControlName="scopeDetailsArabic" />
+              <div *ngIf="projectScopeFormSubmitted && projectScopeFormControls.scopeDetailsArabic.invalid" class="invalid-feedback">
+                <div *ngIf="projectScopeFormControls.scopeDetailsArabic.errors.required">Please enter sow name in arabic</div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">{{submitBtnText}}</button>
+            <button class="btn btn-danger mx-1" type="button" (click)="goBack()">Back</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

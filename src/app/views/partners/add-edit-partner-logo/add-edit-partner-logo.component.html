@@ -1,0 +1,46 @@
+<div class="animated fadeIn">
+  <div class="card">
+
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h2 class="card-header-headingText">{{cardTitle}}</h2>
+    </div>
+
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12 mb-5">
+          <form [formGroup]="partnerLogoForm" (ngSubmit)="handleLogo()">
+            <div class="form-group">
+              <label for="page_title">Partner Logo</label>
+              <div class="d-block" *ngIf="logoUrl">
+                <img [src]="logoUrl" alt="logo" class="img-fluid mb-3 hover" #imageElem width="160" (click)="openMediaModal($event)">
+              </div>
+
+              <div class="input-group mb-3">
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" formControlName="partnerLogo" accept="image/jpeg, image/jpg, image/png" (change)="postMethod($event.target.files)">
+                  <label class="custom-file-label" for="inputGroupFile01">{{ fileName }}</label>
+                </div>
+              </div>
+              <small class="form-text text-muted">Tip: For better display, logo size should be 250x115 pixels</small>
+            </div>
+
+            <div class="form-group">
+              <label for="page_title">Partner Link</label>
+              <input type="text" class="form-control" formControlName="partnerLink" />
+            </div>
+
+            <div class="form-group">
+              <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="customSwitch1" formControlName="isActive" [checked]="! logoId">
+                <label class="custom-control-label" for="customSwitch1">Mark as active</label>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">{{submitBtnText}}</button>
+            <button class="btn btn-danger mx-1" type="button" (click)="goBack()">Back</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

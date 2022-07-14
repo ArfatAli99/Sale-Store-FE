@@ -1,0 +1,58 @@
+<div class="animated fadeIn">
+  <div class="card">
+
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h2 class="card-header-headingText">{{ cardTitle }}</h2>
+    </div>
+
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12 mb-5">
+          <form [formGroup]="sliderForm">
+
+            <div class="form-group">
+              <label for="slide_image">Slide Image <span class="text-danger">*</span></label>
+              <div class="input-group mb-3">
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" formControlName="slideImage" accept="image/jpeg, image/jpg, image/png" (change)="postMethodImage($event.target.files)">
+                  <label class="custom-file-label" for="inputGroupFile01">{{ imageName }}</label>
+                </div>
+              </div>
+              <small class="form-text text-muted mb-3">Tip: For better display, image size should be 1744x872 pixels</small>
+              <img [src]="baseImageUrl + uploadedImage" alt="image" class="img-fluid hover" *ngIf="uploadedImage" width="240" (click)="openMediaModal($event)">
+            </div>
+
+            <div class="form-group">
+              <label for="slide_video">Slide Video</label>
+              <div class="input-group mb-3">
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="inputGroupFile02" aria-describedby="inputGroupFile02" formControlName="slideVideo" accept=".mp4" (change)="postMethodVideo($event.target.files)">
+                  <label class="custom-file-label" for="inputGroupFile02">{{ videoName }}</label>
+                </div>
+              </div>
+              <video width="320" height="240" [src]="baseImageUrl + uploadedVideo" controls *ngIf="uploadedVideo">
+
+                Your browser does not support the video tag.
+              </video>
+            </div>
+
+            <div class="form-group">
+              <label for="slider_text">Slider Text</label>
+              <textarea class="form-control" id="slider_text" formControlName="slideText" rows="4"></textarea>
+            </div>
+
+            <div class="custom-control custom-switch">
+              <input type="checkbox" class="custom-control-input" id="customSwitch1" formControlName="slideStatus">
+              <label class="custom-control-label" for="customSwitch1">Active</label>
+            </div>
+
+            <div class="d-block">
+              <button type="button" class="btn btn-primary mt-3" (click)="saveSlide()">Save Slide</button>
+              <button class="btn btn-danger mt-3 ml-2" type="button" (click)="goBack()">Back</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

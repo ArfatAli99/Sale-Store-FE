@@ -1,0 +1,326 @@
+<h4 class="mb-3">Project Stages <button type="button" class="btn btn-primary btn-sm ml-1" (click)="openStageModal()">Add Stage</button></h4>
+
+<div class="animated fadeIn" *ngFor="let stage of stageTaskDetails; let i = index">
+    <div class="card">
+        <div class="card-header d-flex align-items-center justify-content-between">
+            <h2 class="card-header-headingText">
+                Stage {{ i + 1 }}
+            </h2>
+            <div class="btn-wrap float-right">
+                <button class="btn btn-success text-white btn-sm ml-2" (click)="editStage(stage)">Edit Stage</button>
+                <button class="btn btn-danger text-white btn-sm ml-2" (click)="confirmDeleteStage(stage)" *ngIf="stage.is_default == 0">Delete Stage</button>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Stage Name</dt>
+                <dd class="col-sm-9">{{ stage.description }}</dd>
+            </dl>
+            <dl class="row">
+                <dt class="col-sm-3">Stage Name (Arabic)</dt>
+                <dd class="col-sm-9">{{ stage.description_arabic }}</dd>
+            </dl>
+            <dl class="row">
+                <dt class="col-sm-3">Sequence</dt>
+                <dd class="col-sm-9">{{ stage.sequence }}</dd>
+            </dl>
+            <dl class="row">
+                <dt class="col-sm-3">Maximum Allowed Pullback Stage (Stage no.)</dt>
+                <dd class="col-sm-9">{{ stage.max_allow_pullback }}</dd>
+            </dl>
+            <dl class="row">
+                <dt class="col-sm-3">Maximum Allowed OMR Percentage</dt>
+                <dd class="col-sm-9">{{ stage.maximum_allowed_percentage }}</dd>
+            </dl>
+            <dl class="row">
+                <dt class="col-sm-3">Stage Status</dt>
+                <dd class="col-sm-9">{{ stageStatuses[stage.status] }}</dd>
+            </dl>
+
+            <hr>
+
+            <h5 class="mb-3 text-info">List of Tasks 
+              <button type="button" class="btn btn-primary btn-sm ml-1" (click)="openTaskModal(stage)">Add Task</button>
+              <!-- <button type="button" class="btn btn-success btn-sm ml-1" (click)="openTaskTemplate(stage)">Import</button> -->
+
+              <ul class="list-inline d-inline ml-2">
+                <li class="list-inline-item">
+                  <select class="custom-select" [(ngModel)]="taskDropdown">
+                    <option value="">Add Template Task</option>
+                    <option value="{{ task.id }}" *ngFor="let task of taskTemplateItems">{{ task.name }}</option>
+                  </select>            
+                </li>
+                <li class="list-inline-item">
+                  <button class="btn btn-success btn-sm" (click)="importTask(stage.id)">Add</button>
+                </li>
+              </ul>
+            </h5>
+
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th>No.</th>
+                    <th>Task Name</th>
+                    <th>Status</th>
+                    <th>Type</th>
+                    <th>Assignee</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let task of stage.project_task_templates; let j = index">
+                        <td>{{ j + 1 }}</td>
+                        <td>{{ task.name }}</td>
+                        <td>{{ taskStatuses[task.status - 1] }}</td>
+                        <td>{{ task.Type }}</td>
+                        <td>{{ task.assignee }}</td>
+                        <td>
+                            <button class="btn btn-info btn-sm text-white mr-1" (click)="editTask(stage, task)">Edit</button>
+                            <button class="btn btn-danger btn-sm text-white" (click)="confirmDeleteTask(task)">Delete</button>                        
+                        </td>
+                    </tr>
+                </tbody>
+              </table>
+
+          </div>
+    </div>
+</div>
+
+
+<!-- Stage Modal -->
+<div class="modal fade" id="stageModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="stageModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <form [formGroup]="stageDetailsForm" (ngSubmit)="saveStage()">
+            <div class="modal-header">
+                <h5 class="modal-title" id="taskModalTitle">{{ stageSubmitBtnText }}</h5>
+                <button type="button" class="close" (click)="closeStageModal()" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                  <div class="col-md-8 d-none">
+                    <div class="form-group">
+                      <label for="stage_name">Stage Name <span class="text-danger">*</span></label>
+                      <input type="text" class="form-control" id="stage_name" formControlName="stageName" />
+                      <div *ngIf="stageFormSubmitted && stageFormControls.stageName.invalid" class="invalid-feedback">
+                        <div *ngIf="stageFormControls.stageName.errors.required">Please enter stage name</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="stage_description">Stage Name <span class="text-danger">*</span></label>
+                      <textarea id="stage_description" class="form-control" rows="3" formControlName="stageDescription"></textarea>
+                      <div *ngIf="stageFormSubmitted && stageFormControls.stageDescription.invalid" class="invalid-feedback">
+                        <div *ngIf="stageFormControls.stageDescription.errors.required">Please enter stage name</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="stage_description_arabic">Stage Name (Arabic) <span class="text-danger">*</span></label>
+                      <textarea id="stage_description_arabic" class="form-control" rows="3" formControlName="stageDescriptionArabic"></textarea>
+                      <div *ngIf="stageFormSubmitted && stageFormControls.stageDescriptionArabic.invalid" class="invalid-feedback">
+                        <div *ngIf="stageFormControls.stageDescriptionArabic.errors.required">Please enter stage name in arabic</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label for="sequence_no">Sequence <span class="text-danger">*</span></label>
+                      <input type="number" class="form-control" id="sequence_no" formControlName="sequenceNo" min="1" />
+                      <div *ngIf="stageFormSubmitted && stageFormControls.sequenceNo.invalid" class="invalid-feedback">
+                        <div *ngIf="stageFormControls.sequenceNo.errors.required">Please enter sequence no.</div>
+                        <div *ngIf="stageFormControls.sequenceNo.errors.min">Sequence number minimum value should be 1</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="maximum_allowed_pullback_stage">Maximum Allowed Pullback Stage (Stage no.) <span class="text-danger">*</span></label>
+                      <input type="number" class="form-control" id="maximum_allowed_pullback_stage" formControlName="maximumAllowedPullbackStage" min="1" />
+                      <div *ngIf="stageFormSubmitted && stageFormControls.maximumAllowedPullbackStage.invalid" class="invalid-feedback">
+                        <div *ngIf="stageFormControls.maximumAllowedPullbackStage.errors.required">Please enter maximum allowed pullback stage</div>
+                        <div *ngIf="stageFormControls.maximumAllowedPullbackStage.errors.min">Minimum allowed pullback stage is 1</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="maximum_allowed_omr_percentage">Maximum Allowed OMR Percentage <span class="text-danger">*</span></label>
+                      <input type="number" class="form-control" id="maximum_allowed_omr_percentage" formControlName="maximumAllowedOmrPercentage" min="1" max="100" />
+                      <div *ngIf="stageFormSubmitted && stageFormControls.maximumAllowedOmrPercentage.invalid" class="invalid-feedback">
+                        <div *ngIf="stageFormControls.maximumAllowedOmrPercentage.errors.required">Please enter maximum allowed OMR percentage</div>
+                        <div *ngIf="stageFormControls.maximumAllowedOmrPercentage.errors.max">Percentage must be between 1 to 100</div>
+                        <div *ngIf="stageFormControls.maximumAllowedOmrPercentage.errors.min">Percentage must be between 1 to 100</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="stage_status">Stage Status <span class="text-danger">*</span></label>
+                      <select id="stage_status" class="custom-select" formControlName="stageStatus">
+                        <option value="{{ i }}" *ngFor="let stageStatus of stageStatuses; let i = index">{{ stageStatus }}</option>
+                      </select>
+                      <div *ngIf="stageFormSubmitted && stageFormControls.stageStatus.invalid" class="invalid-feedback">
+                        <div *ngIf="stageFormControls.stageStatus.errors.required">Please select project status</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeStageModal()">Close</button>
+              <button type="submit" class="btn btn-primary">{{stageSubmitBtnText}}</button>
+            </div>
+          </form>
+      </div>
+    </div>
+</div>
+
+
+<!-- Task Modal -->
+<div class="modal fade" id="taskModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="taskModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <form [formGroup]="taskForm" (ngSubmit)="addNewTask()">
+          <div class="modal-header">
+            <h5 class="modal-title" id="taskModalTitle">{{ taskBtnText }}</h5>
+            <button type="button" class="close" (click)="closeTaskModal()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="task_name">Task Name <span class="text-danger">*</span></label>
+                  <input type="text" id="task_name" class="form-control" formControlName="taskName">
+                  <div *ngIf="taskFormSubmitted && taskFormControls.taskName.invalid" class="invalid-feedback">
+                    <div *ngIf="taskFormControls.taskName.errors.required">Please enter task name</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="task_name_arabic">Task Name (in Arabic) <span class="text-danger">*</span></label>
+                  <input type="text" id="task_name_arabic" class="form-control" formControlName="taskNameArabic">
+                  <div *ngIf="taskFormSubmitted && taskFormControls.taskNameArabic.invalid" class="invalid-feedback">
+                    <div *ngIf="taskFormControls.taskNameArabic.errors.required">Please enter task name in arabic</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="task_type">Task Type <span class="text-danger">*</span></label>
+                  <select id="task_type" class="custom-select" formControlName="taskType">
+                    <option value="{{ taskType }}" *ngFor="let taskType of taskTypes">{{ taskType }}</option>
+                  </select>
+                  <div *ngIf="taskFormSubmitted && taskFormControls.taskType.invalid" class="invalid-feedback">
+                    <div *ngIf="taskFormControls.taskType.errors.required">Please select task type</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="task_type_arabic">Task Type (in Arabic) <span class="text-danger">*</span></label>
+                  <select id="task_type_arabic" class="custom-select" formControlName="taskTypeArabic">
+                    <option value="{{ taskType }}" *ngFor="let taskType of taskTypesArabic">{{ taskType }}</option>
+                  </select>
+                  <div *ngIf="taskFormSubmitted && taskFormControls.taskTypeArabic.invalid" class="invalid-feedback">
+                    <div *ngIf="taskFormControls.taskTypeArabic.errors.required">Please select task type (in Arabic)</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="task_instruction">Task Instruction</label>
+                  <textarea id="task_instruction" class="form-control" rows="3" formControlName="taskInstruction"></textarea>
+                  <div *ngIf="taskFormSubmitted && taskFormControls.taskInstruction.invalid" class="invalid-feedback">
+                    <div *ngIf="taskFormControls.taskInstruction.errors.required">Please enter task instruction</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="task_instruction_arabic">Task Instruction (in Arabic)</label>
+                  <textarea id="task_instruction_arabic" class="form-control" rows="3" formControlName="taskInstructionArabic"></textarea>
+                  <div *ngIf="taskFormSubmitted && taskFormControls.taskInstructionArabic.invalid" class="invalid-feedback">
+                    <div *ngIf="taskFormControls.taskInstructionArabic.errors.required">Please enter task instruction in arabic</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="assignee">Assignee <span class="text-danger">*</span></label>
+                  <select id="assignee" class="custom-select" formControlName="assignee">
+                    <option value="Contractor">Contractor</option>
+                    <option value="Client">Client</option>
+                    <option value="Consultant">Consultant</option>
+                  </select>
+                  <div *ngIf="taskFormSubmitted && taskFormControls.assignee.invalid" class="invalid-feedback">
+                    <div *ngIf="taskFormControls.assignee.errors.required">Please select assignee</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="task_status">Task Status <span class="text-danger">*</span></label>
+                  <select id="task_status" class="custom-select" formControlName="taskStatus">
+                    <option value="{{ i + 1 }}" *ngFor="let taskStatus of taskStatuses; let i = index">{{ taskStatus }}</option>
+                  </select>
+                  <div *ngIf="taskFormSubmitted && taskFormControls.taskStatus.invalid" class="invalid-feedback">
+                    <div *ngIf="taskFormControls.taskStatus.errors.required">Please select task status</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeTaskModal()">Close</button>
+            <button type="submit" class="btn btn-primary">{{ taskBtnText }}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+</div>
+
+
+<!-- Task Template Modal -->
+<div class="modal fade" id="taskTemplateModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="taskModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form [formGroup]="taskTemplateForm" (ngSubmit)="importTaskTemplate()">
+        <div class="modal-header">
+          <h5 class="modal-title" id="taskModalTitle">Import Task Template</h5>
+          <button type="button" class="close" (click)="closeTaskTemplateModal()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="task_template">Task Template <span class="text-danger">*</span></label>
+                <select formControlName="taskTemplate" id="task_template" class="custom-select">
+                  <option value=""></option>
+                  <option value="{{ template.id }}" *ngFor="let template of taskTemplateItems">{{ template.name }}</option>
+                </select>
+                <div *ngIf="taskTemplateFormSubmitted && taskTemplateFormControls.taskTemplate.invalid" class="invalid-feedback">
+                  <div *ngIf="taskTemplateFormControls.taskTemplate.errors.required">Please select task template</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeTaskTemplateModal()">Close</button>
+          <button type="submit" class="btn btn-primary">Import</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,88 @@
+<div class="animated fadeIn">
+  <div class="card">
+
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h2 class="card-header-headingText">All Scopes List</h2>
+      <div class="btn-holder">
+        <a [routerLink]="['/project-scopes-info-list/add']" class="btn btn-brand btn-success"><i class="fa fa-plus"></i> <span>Add New Scope Details</span></a>
+         <!-- redirected from here -->
+      </div>
+    </div>
+
+    <!-- ======== -->
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Scope List</span>
+        </div>
+        <input type="text" class="form-control" name="search_text" [(ngModel)]="search_text" placeholder="Search..." (keyup.enter)="search()">
+       <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="reset" (click)="clearAll()">Clear</button>
+          <button class="btn btn-brand btn-sm btn-primary" type="button" (click)="search()">Search</button>
+        </div>
+      </div>
+    </div>
+    <!-- ===== -->
+
+    <div class="card-table">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Section No.</th>
+              <th scope="col">Section Category</th>
+              <th scope="col">Main Category</th>
+              <th scope="col">SOW Category</th>
+              <th scope="col">Submitted On</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let scope of scopeInfos; let i = index">
+              <th scope="row">{{((pageOffset-1)*limitPerPage)+i+1}}</th>
+              <td>{{ scope.section_no }}</td>
+              <td>{{scope.section_scope_category.name}}</td>
+              <td>{{scope.master_scope_category?.name}}</td>
+              <td>{{scope.project_scope.scope_description}}</td>
+              <td>{{ scope.createdAt | date:'medium' }}</td>
+              <td>
+                <a class="btn btn-outline-primary btn-sm" [routerLink]="['/project-scopes-info-list/edit', scope.id]" routerLinkActive="router-link-active" [state]="{page: pageOffset}">View Details</a>
+              </td>
+            </tr>
+  
+            <tr *ngIf="scopeInfos.length == 0"><td colspan="6" align="center">No scope submitted.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card-footer" *ngIf="countTotalPage != 0 && countTotalPage>limitPerPage">
+
+      <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+        <li class="page-item disabled" [ngClass]="{disabled:pager.currentPage === 1}">
+          <a class="page-link" (click)="setPage(1)">&laquo;</a>
+        </li>
+        <li class="page-item disabled" [ngClass]="{disabled:pager.currentPage === 1}">
+          <a class="page-link" (click)="setPage(pager.currentPage - 1)">&lsaquo;</a>
+        </li>
+        <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+          <a class="page-link" (click)="setPage(page)">{{page}}</a>
+        </li>
+
+        <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+          <a class="page-link" (click)="setPage(pager.currentPage + 1)">&rsaquo;</a>
+        </li>
+        <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+          <a class="page-link" (click)="setPage(pager.totalPages)">&raquo;</a>
+        </li>
+        <!-- <li class="page-item pl-31">
+          <input type="number" class="form-control ml-2" [(ngModel)]="page_no" placeholder="Go To" min="1" max="{{ pager.totalPages }}" (keyup.enter)="setPage(+$event.target.value)">
+        </li> -->
+      </ul>
+
+    </div>
+
+    </div>
+  </div>
+
+</div>

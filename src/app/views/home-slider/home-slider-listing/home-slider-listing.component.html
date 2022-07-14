@@ -1,0 +1,70 @@
+<div class="animated fadeIn ">
+  <div class="card">
+
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h2 class="card-header-headingText">Homepage Slides</h2>
+      <div class="btn-holder">
+        <a [routerLink]="['/home-sliders/add']" class="btn btn-brand btn-success"><i class="fa fa-plus"></i> <span>Add New Slide</span></a>
+      </div>
+    </div>
+
+    <div class="card-table">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Slide Image</th>
+              <th scope="col">Is Active?</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let slide of slides; let i = index">
+              <th scope="row">{{((pageOffset-1)*limitPerPage)+i+1}}</th>
+              <td>
+                  <img src="{{ baseImageUrl + slide.resource_thumbnail }}" alt="slide image" onerror="this.src='assets/no_image.gif'" *ngIf='imageTypes.includes( slide.resource_thumbnail.split(".").reverse()[0] )' width="84">
+              </td>
+              <td>
+                <i class="fa fa-check-circle fa-2x text-success" *ngIf="slide.is_active; else inActive"></i>
+                <ng-template #inActive>
+                  <i class="fa fa-times-circle fa-2x text-danger"></i>
+                </ng-template>
+              </td>
+              <td>
+                <a class="btn btn-outline-primary btn-sm" routerLink="/home-sliders/edit/{{ slide.id }}" [state]="{page: pageOffset}">Edit Slide</a>
+              </td>
+            </tr>
+  
+            <tr *ngIf="slides.length === 0"><td colspan="4" align="center">No slide found.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card-footer" *ngIf="countTotalPage != 0 && countTotalPage>limitPerPage">
+
+        <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+          <li class="page-item disabled" [ngClass]="{disabled:pager.currentPage === 1}">
+            <a class="page-link" (click)="setPage(1)">&laquo;</a>
+          </li>
+          <li class="page-item disabled" [ngClass]="{disabled:pager.currentPage === 1}">
+            <a class="page-link" (click)="setPage(pager.currentPage - 1)">&lsaquo;</a>
+          </li>
+          <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+            <a class="page-link" (click)="setPage(page)">{{page}}</a>
+          </li>
+
+          <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+            <a class="page-link" (click)="setPage(pager.currentPage + 1)">&rsaquo;</a>
+          </li>
+          <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+            <a class="page-link" (click)="setPage(pager.totalPages)">&raquo;</a>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>

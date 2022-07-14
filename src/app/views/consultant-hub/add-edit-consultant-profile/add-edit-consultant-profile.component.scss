@@ -1,0 +1,22 @@
+.image-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-auto-rows: 110px;
+    grid-gap: 1em;
+}
+
+.image-wrapper img {
+    width: 100%;
+    height: 100%;
+}
+
+.removeBtn {
+    border: 0 none;
+    background: #f12626;
+    border-radius: 50%;
+    height: 23px;
+    width: 23px;
+    position: absolute;
+    right: -10px;
+    top: -11px;
+}

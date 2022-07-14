@@ -1,0 +1,1488 @@
+<div class="animated fadeIn">
+
+  <div class="card card-accent-success" *ngIf="usersDetails">
+    <div class="card-header">
+      Contractor Details
+
+      <a href="javascript::void(0)" (click)="approveContractor()" class="btn btn-brand btn-sm btn-status float-right mr-1 btn-success">
+        <i class="fa fa-check"></i>
+        Approve
+      </a>
+    </div>
+    <div class="card-body p-0">
+      <table class="table user-details-table m-0">
+        <tbody>
+          <tr>
+            <td style="width:200px;"><strong>Name</strong></td>
+            <td>{{ usersDetails?.full_name }}</td>
+          </tr>
+          <tr>
+            <td style="width:200px;"><strong>Phone</strong></td>
+            <td>{{ usersDetails?.phone }}</td>
+          </tr>
+          <tr>
+            <td style="width:200px;"><strong>Email</strong></td>
+            <td>{{ usersDetails?.email }}</td>
+          </tr>
+          <tr>
+            <td style="width:200px;"><strong>User Type</strong></td>
+            <td>
+              <span *ngIf="usersDetails?.user_type==1">Client</span>
+              <span *ngIf="usersDetails?.user_type==2">Consultant</span>
+              <span *ngIf="usersDetails?.user_type==3">Contractor</span>
+            </td>
+          </tr>
+          <tr>
+            <td style="width:200px;"><strong>Registered On</strong></td>
+            <td>{{ usersDetails?.createdAt | date:'medium' }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- login-window -->
+      <div class="login-window" *ngIf="usersDetails?.user_type == 3">
+
+        <!-- login-window-form -->
+        <div
+            class="login-window-form px-xl-5 px-lg-5 px-md-4 px-sm-4 px-2 px-md-4 py-xl-5 py-lg-5 py-md-4 py-sm-4 py-4">
+            <form [formGroup]="userDetailsForm">
+                <!-- login-window-form-holder -->
+                <div class="login-window-form-holder signup-contractor-steps contact-form">
+                    <div class="form-row mx-0 mb-xl-4 mb-lg-4 mb-md-3 mb-sm-3 mb-3">
+                        <!-- contact-form-subtitle -->
+                        <h2 class="contact-form-subtitle w-100 text-center">Contractor Details</h2>
+                        <!-- contact-form-subtitle -->
+                    </div>
+                    <mat-horizontal-stepper [linear]="isLinear" #stepper>
+                        <!-- Step1 -->
+                        <mat-step [stepControl]="Step1">
+                            <!-- step_heading -->
+                            <h2 class="step_heading mb-4">Owner Information</h2>
+                            <!-- step_heading -->
+                            <div class="row" >
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <!-- form-row -->
+                                    <div class="form-row mx-0 mb-2">
+                                        <mat-form-field>
+                                            <input matInput type="text"
+                                                placeholder="Years of Experience in Construction" formControlName="yearsOfExperience" >
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- form-row -->
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <!-- form-row -->
+                                    <div class="form-row mx-0 mb-2">
+                                        <mat-form-field>
+                                            <mat-label>Is the company owner a civil engineer?</mat-label>
+                                            <mat-select
+                                                placeholder="Is the company owner a civil engineer?" formControlName="isCivilEngineer">
+                                                <mat-option value="yes">Yes</mat-option>
+                                                <mat-option value="no">No</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- form-row -->
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <!-- form-row -->
+                                    <div class="form-row mx-0 mb-2">
+                                        <mat-form-field>
+                                            <input matInput type="text" placeholder="City" formControlName="city">
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- form-row -->
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
+                                    <!-- form-row -->
+                                    <div class="form-row d-block mx-0 mb-2 text-center">
+                                        <!-- <button mat-button type="button">Cancel</button> -->
+                                        <button class="text-uppercase" mat-raised-button type="button"
+                                            color="primary" matStepperNext>Next</button>
+                                    </div>
+                                    <!-- form-row -->
+                                </div>
+                            </div>
+                        </mat-step>
+                        <!-- Step1 -->
+
+                        <!-- Step2 -->
+                        <mat-step [stepControl]="Step2">
+                            <div >
+                                <!-- Step Content Heading -->
+
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                        <h2 class="step_heading mb-4 mr-1">Company Information</h2>
+                                        <div class="row">
+                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                                <!-- form-row -->
+                                                <div class="form-row mx-0 mb-2">
+                                                    <mat-form-field>
+                                                        <input matInput type="text"
+                                                            placeholder="Company Name" formControlName="companyName">
+                                                    </mat-form-field>
+                                                </div>
+                                                <!-- form-row -->
+                                            </div>
+
+                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                                <!-- form-row -->
+                                                <div class="form-row mx-0 mb-2">
+                                                    <mat-form-field>
+                                                        <input matInput type="text"
+                                                            placeholder="Company Address" formControlName="companyAddress">
+                                                    </mat-form-field>
+                                                </div>
+                                                <!-- form-row -->
+                                            </div>
+
+
+                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                                <!-- form-row -->
+                                                <div class="form-row mx-0 mb-2">
+                                                    <mat-form-field>
+                                                        <input matInput type="text"
+                                                            placeholder="Head Quater Location" formControlName="headQuaterLocation">
+                                                    </mat-form-field>
+                                                </div>
+                                                <!-- form-row -->
+                                            </div>
+
+                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                                <!-- form-row -->
+                                                <div class="form-row mx-0 mb-2">
+                                                    <mat-form-field>
+                                                        <input matInput type="text"
+                                                            placeholder="CR Start Date" formControlName="crStartDate">
+                                                    </mat-form-field>
+                                                </div>
+                                                <!-- form-row -->
+                                            </div>
+
+                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                                <!-- form-row -->
+                                                <div class="form-row mx-0 mb-2">
+                                                    <mat-form-field>
+                                                        <input matInput type="text"
+                                                            placeholder="CR Expiration Date" formControlName="crExpirationDate">
+                                                    </mat-form-field>
+                                                </div>
+                                                <!-- form-row -->
+                                            </div>
+
+                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                                <!-- form-row -->
+                                                <div class="form-row mx-0 mb-2">
+                                                    <mat-form-field>
+                                                        <input matInput type="text" placeholder="CR Number" formControlName="crNumber">
+                                                    </mat-form-field>
+                                                </div>
+                                                <!-- form-row -->
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                        <h2 class="step_heading mb-4 mr-1">Marketing Information</h2>
+                                        <div class="row">
+                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                                <!-- form-row -->
+                                                <div class="form-row mx-0 mb-2">
+                                                    <mat-form-field>
+                                                        <input matInput type="text"
+                                                            placeholder="Company Website" formControlName="companyWebsite">
+                                                    </mat-form-field>
+                                                </div>
+                                                <!-- form-row -->
+                                            </div>
+
+                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                                <!-- form-row -->
+                                                <div class="form-row mx-0 mb-2">
+                                                    <mat-form-field>
+                                                        <input matInput type="text"
+                                                            placeholder="Instagram Account" formControlName="instagramAccount">
+                                                    </mat-form-field>
+                                                </div>
+                                                <!-- form-row -->
+                                            </div>
+
+                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                                <!-- form-row -->
+                                                <div class="form-row mx-0 mb-2">
+                                                    <mat-form-field>
+                                                        <input matInput type="text"
+                                                            placeholder="LinkedIn Account" formControlName="linkedInAccount">
+                                                    </mat-form-field>
+                                                </div>
+                                                <!-- form-row -->
+                                            </div>
+
+                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                                <!-- form-row -->
+                                                <div class="form-row mx-0 mb-2">
+                                                    <mat-form-field>
+                                                        <input matInput type="text"
+                                                            placeholder="Twitter Account" formControlName="twitterAccount">
+                                                    </mat-form-field>
+                                                </div>
+                                                <!-- form-row -->
+                                            </div>
+
+                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                                <!-- form-row -->
+                                                <div class="form-row mx-0 mb-2">
+                                                    <mat-form-field>
+                                                        <input matInput type="text"
+                                                            placeholder="Other Marketing Platforms" formControlName="otherMarketingPlatforms">
+                                                    </mat-form-field>
+                                                </div>
+                                                <!-- form-row -->
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="checkBox_row col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-3 mb-3">
+                                        <h3 class="step_form_subtitle">Please check Governorate you work at*
+                                        </h3>
+
+                                        <!-- CheckBox form-row -->
+                                        <div class="custome_check mt-4 row mx-0" formArrayName="governorateYouWorkAt">
+
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12" *ngFor="let item of workedGovournates; let i = index;">
+                                                <mat-checkbox matInput class="primary-checkbox" formControlName="{{i}}">
+                                                    {{ item }}</mat-checkbox>
+                                            </div>
+
+                                        </div>
+                                        <!-- CheckBox form-row -->
+                                    </div>
+
+                                    <div
+                                        class="radio_row  col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-4">
+                                        <h3 class="step_form_subtitle">Please check Governorate you work at*
+                                        </h3>
+
+                                        <!-- Radio form-row -->
+                                        <mat-radio-group formControlName="governorateYouWorkAt2">
+                                            <div class="custome_check mt-4 row mx-0">
+                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12" *ngFor="let item of workedGovournates2; let i = index;">
+                                                    <mat-radio-button class="primary-radio-button" [value]="item">
+                                                        {{ item }} 
+                                                    </mat-radio-button>
+                                                </div>
+                                            </div>
+                                        </mat-radio-group>
+                                        <!-- Radio form-row -->
+                                    </div>
+
+
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                        <div class="form-row mx-0">
+                                            <mat-form-field class="w-100">
+                                                <textarea matInput
+                                                    placeholder="List other private and government agencies you are registered with" formControlName="otherPrivateAndGovernmentAgencies"></textarea>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
+                                        <!-- form-row -->
+                                        <div class="form-row d-block mx-0 mb-2 text-center">
+                                            <button mat-button type="button" (click)="goPrevious(stepper)">Back</button>
+                                            <button class="text-uppercase" mat-raised-button type="button"
+                                                color="primary" matStepperNext>Next
+                                            </button>
+                                        </div>
+                                        <!-- form-row -->
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-step>
+                        <!-- Step2 -->
+
+                        <!-- Step3 -->
+                        <mat-step [stepControl]="Step3">
+                            <div >
+                                <!-- Step Content Heading -->
+                                <h2 class="step_heading mb-3">Products & Services</h2>
+
+                                <div class="row">
+                                    <div
+                                        class="checkBox_row col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-3 mb-3">
+                                        <h3 class="step_form_subtitle">Check Applicable Construction Activities*
+                                        </h3>
+
+                                        <!-- CheckBox form-row -->
+                                        <div class="custome_check mt-4 row mx-0">
+                                            <div
+                                                class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-0 bg_gray pt-3 mb-2">
+                                                <div class="first_gray_row row" formArrayName="applicableConstructionActivities">
+                                                    <div
+                                                        class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 m-0" *ngFor="let item of applicableConstructionActivities; let i = index;">
+                                                        <mat-checkbox class="primary-checkbox" formControlName="{{i}}">
+                                                            {{ item }}
+                                                        </mat-checkbox>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <!-- CheckBox form-row -->
+                                    </div>
+
+                                    <div
+                                        class="checkBox_row col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-3 mb-3">
+                                        <h3 class="step_form_subtitle"> Check Applicable
+                                            Services Provided
+                                            by Contractors*</h3>
+
+                                        <!-- CheckBox form-row -->
+                                        <div class="custome_check mt-4 row mx-0" formArrayName="applicableServicesProvidedByContractors">
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 m-0" *ngFor="let item of applicableServicesProvidedByContractors; let i = index;">
+                                                <mat-checkbox class="primary-checkbox" formControlName="{{i}}">
+                                                    {{ item }}
+                                                </mat-checkbox>
+                                            </div>
+                                        </div>
+                                        <!-- CheckBox form-row -->
+                                    </div>
+
+
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
+                                        <!-- form-row -->
+                                        <div class="form-row d-block mx-0 mb-2 text-center">
+                                            <button mat-button type="button" (click)="goPrevious(stepper)">Back</button>
+                                            <button class="text-uppercase" mat-raised-button type="button"
+                                                color="primary" matStepperNext>Next
+                                            </button>
+                                        </div>
+                                        <!-- form-row -->
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </mat-step>
+                        <!-- Step3 -->
+
+                        <!-- Step4 -->
+                        <mat-step [stepControl]="Step4">
+                            <div >
+                                <!-- Step Content Heading -->
+                                <h2 class="step_heading mb-4">Company History</h2>
+
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 m-0">
+                                        <!-- form-row -->
+                                        <div class="form-row mx-0 mb-2">
+                                            <mat-form-field>
+                                                <input matInput type="text"
+                                                    placeholder="How many projects are you  working on currently?" formControlName="noOfCurrentProjects">
+                                            </mat-form-field>
+                                        </div>
+                                        <!-- form-row -->
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 m-0">
+                                        <!-- form-row -->
+                                        <div class="form-row mx-0 mb-2">
+                                            <mat-form-field>
+                                                <input matInput type="text"
+                                                    placeholder="How many projects have you delivered in the registered company?" formControlName="noOfDeliveredProjects">
+                                            </mat-form-field>
+                                        </div>
+                                        <!-- form-row -->
+                                    </div>
+
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 m-0">
+                                        <!-- form-row -->
+                                        <div class="form-row mx-0 mb-2">
+                                            <mat-form-field>
+                                                <input matInput type="text"
+                                                    placeholder="What was the largest project value awarded to your company ?" formControlName="largestProjectAwardedValue">
+                                            </mat-form-field>
+                                        </div>
+                                        <!-- form-row -->
+                                    </div>
+
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 m-0">
+                                        <!-- form-row -->
+                                        <div class="form-row mx-0 mb-2">
+                                            <mat-form-field>
+                                                <input matInput type="text"
+                                                    placeholder="How many projects have you worked on at once?" formControlName="noOfSimultaneousProjects">
+                                            </mat-form-field>
+                                        </div>
+                                        <!-- form-row -->
+                                    </div>
+
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 m-0">
+                                        <!-- form-row -->
+                                        <div class="form-row mx-0 mb-2">
+                                            <mat-form-field>
+                                                <input matInput type="text"
+                                                    placeholder="On average, how much do you charge per square meter (m2) for black building projects ?" formControlName="chargeForBlackBuilding">
+                                            </mat-form-field>
+                                        </div>
+                                        <!-- form-row -->
+                                    </div>
+
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 m-0">
+                                        <!-- form-row -->
+                                        <div class="form-row mx-0 mb-2">
+                                            <mat-form-field>
+                                                <input matInput type="text" placeholder="On average, how much do you charge per square meter (m2) for
+      turnkey projects ?" formControlName="chargeForTurnkeyBuilding">
+                                            </mat-form-field>
+                                        </div>
+                                        <!-- form-row -->
+                                    </div>
+
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 m-0">
+                                        <!-- form-row -->
+                                        <div class="form-row mx-0 mb-2">
+                                            <mat-form-field>
+                                                <input matInput type="text"
+                                                    placeholder="Please specify minimum project you will bid for?" formControlName="minimumProjectForBid">
+                                            </mat-form-field>
+                                        </div>
+                                        <!-- form-row -->
+                                    </div>
+
+
+                                    <div
+                                        class="radio_row  col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-4 mt-2">
+                                        <h3 class="step_form_ans">Has your organization ever failed to complete work awarded to it?</h3>
+
+                                        <!-- Radio form-row -->
+                                        <mat-radio-group formControlName="hasFailedToCompleteWork">
+                                            <div class="custome_check mt-2 d-flex mx-0">
+                                                <div class="ml-0 mr-2 pr-4">
+                                                    <mat-radio-button class="primary-radio-button" value="1">
+                                                        Yes
+                                                    </mat-radio-button>
+                                                </div>
+                                                <div class="ml-0 mr-0 pr-4">
+                                                    <mat-radio-button class="primary-radio-button" value="0">
+                                                        No
+                                                    </mat-radio-button>
+                                                </div>
+                                            </div>
+                                        </mat-radio-group>
+                                        <!-- Radio form-row -->
+
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 p-0">
+                                            <div class="form-row mx-0">
+                                                <mat-form-field class="w-100">
+                                                    <textarea matInput
+                                                        placeholder="Please Explain" formControlName="workFailedReason"></textarea>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="radio_row  col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-4 mt-2">
+                                        <h3 class="step_form_ans">Are there any
+                                            judgements, claims, or
+                                            suits pending or outstanding against you or
+                                            your organization
+                                            now or in the past?
+                                        </h3>
+
+                                        <!-- Radio form-row -->
+                                        <mat-radio-group formControlName="hasJudgements">
+                                            <div class="custome_check mt-2 d-flex mx-0">
+                                                <div class="ml-0 mr-2 pr-4">
+                                                    <mat-radio-button class="primary-radio-button" value="1">
+                                                        Yes
+                                                    </mat-radio-button>
+                                                </div>
+                                                <div class="ml-0 mr-0 pr-4">
+                                                    <mat-radio-button class="primary-radio-button" value="0">
+                                                        No
+                                                    </mat-radio-button>
+                                                </div>
+                                            </div>
+                                        </mat-radio-group>
+                                        <!-- Radio form-row -->
+
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 p-0">
+                                            <div class="form-row mx-0">
+                                                <mat-form-field class="w-100">
+                                                    <textarea matInput
+                                                        placeholder="Please Explain" formControlName="hasJudgementsReason"></textarea>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
+                                        <!-- form-row -->
+                                        <div class="form-row d-block mx-0 mb-2 text-center">
+                                            <button mat-button type="button" (click)="goPrevious(stepper)">Back</button>
+                                            <button class="text-uppercase" mat-raised-button type="button"
+                                                color="primary" matStepperNext>Next
+                                            </button>
+                                        </div>
+                                        <!-- form-row -->
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-step>
+                        <!-- Step4 -->
+
+                        <!-- Step5 -->
+                        <mat-step [stepControl]="Step5">
+                            <div >
+                                <!-- Step Content Heading -->
+                                <h2 class="step_heading mb-4">Contractor Resource</h2>
+
+                                <div class="row">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                        <div class="form-row mx-0">
+                                            <mat-form-field class="w-100">
+                                                <textarea matInput
+                                                    placeholder="What measures do you use at your company to maintain quality management on-site?" formControlName="qualityManagements"></textarea>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+
+                                    <div
+                                        class="radio_row  col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-4 mt-3">
+                                        <h3 class="step_form_ans gray_font">
+                                            What project planning software do you use at your company ?
+                                        </h3>
+
+                                        <!-- Radio form-row -->
+                                        <mat-radio-group formControlName="projectPlanningSoftware">
+                                            <div class="custome_check mt-2 row blue_radio_design" >
+                                                <div class="ml-0 mr-2 pr-4 col-12" >
+                                                    <mat-radio-button class="primary-radio-button" value="Excel">
+                                                        Excel
+                                                    </mat-radio-button>
+                                                </div>
+                                                <div class="ml-0 mr-0 pr-4 col-12">
+                                                    <mat-radio-button class="primary-radio-button" value="Primavera">
+                                                        Primavera
+                                                    </mat-radio-button>
+                                                </div>
+
+                                                <div class="ml-0 mr-0 pr-4 col-12">
+                                                    <mat-radio-button class="primary-radio-button" value="Microsoft Project">
+                                                        Microsoft Project
+                                                    </mat-radio-button>
+                                                </div>
+
+                                                <div class="ml-0 mr-0 pr-4 col-12">
+                                                    <mat-radio-button class="primary-radio-button" value="Other">
+                                                        Other
+                                                    </mat-radio-button>
+                                                </div>
+                                            </div>
+                                        </mat-radio-group>
+                                        <!-- Radio form-row -->
+
+                                        <div class="form-row mx-0">
+                                            <mat-form-field class="w-100">
+                                                <textarea matInput placeholder="Please Specify" formControlName="projectPlanningSoftwareDetails"></textarea>
+                                            </mat-form-field>
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <div class="p-0 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                        <div
+                                            class="radio_row  col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-4 mt-3">
+                                            <div class="open_yes_div">
+                                                <div class="form-row d-block mx-0 mb-4 mt-1">
+                                                    <div>
+                                                        <!-- contact-form-duplicator -->
+                                                        <div class="contact-form-duplicator row mb-2">
+                                                            <div
+                                                                class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-left">
+                                                                <h2 class="step_heading">
+                                                                    Manpower
+                                                                    <ul class="list-group list-group-horizontal d-inline-flex ml-3">
+                                                                        <li class="list-group-item px-3 py-1"><small>Engineers: {{ engineerCount }}</small></li>
+                                                                        <li class="list-group-item px-3 py-1"><small>Labors: {{ laborCount }}</small></li>
+                                                                        <li class="list-group-item px-3 py-1"><small>Admins: {{ adminCount }}</small></li>
+                                                                    </ul>
+                                                                </h2>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Engineer Row-->
+                                                        <div class="sub_row">
+                                                            <div
+                                                                class="contact-form-duplicator row mb-2 align-items-center">
+                                                                <div
+                                                                    class="col-xl-7 col-lg-7 col-md-7 col-sm-7 col-5 text-left">
+                                                                    <h3 class="step_form_ans mt-3 mb-2">
+                                                                        Engineer
+                                                                    </h3>
+                                                                </div>
+                                                                <div
+                                                                    class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-7 text-left text-sm-right pl-0">
+                                                                    <button
+                                                                        class="text-uppercase btn-bordered btn-bordered-green btn border_custome_btn d-none"
+                                                                        mat-button type="button" (click)="addEngineerManpower()">
+                                                                        <i class="fa fa-plus"></i>
+                                                                        Add New
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- contact-form-clonebox -->
+                                                            <div class="p-0 mb-3">
+                                                                <div
+                                                                    class="contact-form-clonebox py-2 px-3 add_input_heading">
+                                                                    <div class="row">
+                                                                        <div
+                                                                            class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-0 add_heading">
+                                                                            <p class="m-0">Engineer
+                                                                                Specalization
+                                                                            </p>
+                                                                        </div>
+                                                                        <div
+                                                                            class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-0 add_heading">
+                                                                            <p class="m-0">Number of Omani
+                                                                                Engineers
+                                                                            </p>
+                                                                        </div>
+                                                                        <div
+                                                                            class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-0 add_heading">
+                                                                            <p class="m-0">Number of
+                                                                                Non-Omani
+                                                                                Engineers</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Add New Section -->
+                                                                <div class="row add_new_row" formArrayName="manpowerEngineer" *ngFor="let eng of userDetailsForm.get('manpowerEngineer')['controls']; let i = index;">
+                                                                    <ng-container [formGroupName]="i">
+                                                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-0">
+                                                                            <div class="form-row mx-0 mb-0">
+                                                                                <mat-form-field>
+                                                                                    <mat-label>
+                                                                                    </mat-label>
+                                                                                    <mat-select placeholder="" formControlName="manpowerEngineerSpecialization">
+                                                                                        <mat-option
+                                                                                            value="Civil Engineer">
+                                                                                            Civil Engineer
+                                                                                        </mat-option>
+                                                                                        <mat-option
+                                                                                            value="Electrical Engineer">
+                                                                                            Electrical Engineer
+                                                                                        </mat-option>
+                                                                                        <mat-option
+                                                                                            value="Mechanical Engineer">
+                                                                                            Mechanical Engineer
+                                                                                        </mat-option>
+                                                                                        <!-- <mat-option
+                                                                                            value="Quantity Surveyor">
+                                                                                            Quantity Surveyor
+                                                                                        </mat-option>
+                                                                                        <mat-option
+                                                                                            value="Architect">
+                                                                                            Architect
+                                                                                        </mat-option>
+                                                                                        <mat-option
+                                                                                            value="Other Discipline">
+                                                                                            Other Discipline
+                                                                                        </mat-option> -->
+                                                                                    </mat-select>
+                                                                                </mat-form-field>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div
+                                                                            class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-0">
+                                                                            <div class="form-row mx-0 mb-0">
+                                                                                <mat-form-field>
+                                                                                    <input matInput
+                                                                                        placeholder="" formControlName="manpowerNumberOfOmaniEngineers">
+                                                                                </mat-form-field>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div
+                                                                            class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-0">
+                                                                            <div class="form-row mx-0 mb-0">
+                                                                                <mat-form-field>
+                                                                                    <input matInput type="text"
+                                                                                        placeholder="" formControlName="manpowerNumberOfNonOmaniEngineers">
+                                                                                </mat-form-field>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="delete_row" *ngIf="i > 1">
+                                                                            <button type="button">
+                                                                                <i class="fa fa-trash-o"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </ng-container>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Engineer Row End-->
+
+                                                        <!-- Labors Row -->
+                                                        <div class="sub_row">
+                                                            <div
+                                                                class="contact-form-duplicator row mb-2 align-items-center">
+                                                                <div
+                                                                    class="col-xl-7 col-lg-7 col-md-7 col-sm-7 col-5 text-left">
+                                                                    <h3 class="step_form_ans mt-3 mb-2">
+                                                                        Labors
+                                                                    </h3>
+                                                                </div>
+                                                                <div
+                                                                    class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-7 text-left text-sm-right pl-0">
+                                                                    <button
+                                                                        class="text-uppercase btn-bordered btn-bordered-green btn border_custome_btn d-none"
+                                                                        mat-button type="button" (click)="addLabourManpower()">
+                                                                        <i class="fa fa-plus"></i>
+                                                                        Add New
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <!-- contact-form-clonebox -->
+                                                            <div class="p-0  mb-3">
+                                                                <div
+                                                                    class="contact-form-clonebox py-2 px-3 add_input_heading">
+                                                                    <div class="row">
+                                                                        <div
+                                                                            class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-0 add_heading">
+                                                                            <p class="m-0">Labors
+                                                                                Specalization
+                                                                            </p>
+                                                                        </div>
+                                                                        <div
+                                                                            class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-0 add_heading">
+                                                                            <p class="m-0">Number of Omani
+                                                                                Labors
+                                                                            </p>
+                                                                        </div>
+                                                                        <div
+                                                                            class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-0 add_heading">
+                                                                            <p class="m-0">Number of
+                                                                                Non-Omani
+                                                                                Labors</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Add New Section -->
+                                                                <div class="row add_new_row" formArrayName="manpowerLabour" *ngFor="let eng of userDetailsForm.get('manpowerLabour')['controls']; let i = index;">
+                                                                    <ng-container [formGroupName]="i">
+                                                                        <div
+                                                                            class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-0">
+                                                                            <div class="form-row mx-0 mb-0">
+                                                                                <mat-form-field>
+                                                                                    <mat-label>
+                                                                                    </mat-label>
+                                                                                    <mat-select placeholder="" formControlName="manpowerLabourSpecialization">
+                                                                                        <mat-option [value]="labour" *ngFor="let labour of stepFiveLabours">
+                                                                                            {{ labour }}
+                                                                                        </mat-option>
+                                                                                    </mat-select>
+                                                                                </mat-form-field>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div
+                                                                            class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-0">
+                                                                            <div class="form-row mx-0 mb-0">
+                                                                                <mat-form-field>
+                                                                                    <input matInput
+                                                                                        placeholder="" formControlName="manpowerNumberOfOmaniLabours">
+                                                                                </mat-form-field>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div
+                                                                            class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-0">
+                                                                            <div class="form-row mx-0 mb-0">
+                                                                                <mat-form-field>
+                                                                                    <input matInput type="text"
+                                                                                        placeholder="" formControlName="manpowerNumberOfNonOmaniLabours">
+                                                                                </mat-form-field>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="delete_row">
+                                                                            <button type="button" *ngIf="i > 1"><i
+                                                                                    class="fa fa-trash-o"></i></button>
+                                                                        </div>
+                                                                    </ng-container>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Labors Row End-->
+
+                                                        <!-- Admin Row-->
+                                                        <div class="sub_row">
+                                                            <div
+                                                                class="contact-form-duplicator row mb-2 align-items-center">
+                                                                <div
+                                                                    class="col-xl-7 col-lg-7 col-md-7 col-sm-7 col-5 text-left">
+                                                                    <h3 class="step_form_ans mt-3 mb-2">
+                                                                        Admin
+                                                                    </h3>
+                                                                </div>
+                                                                <div
+                                                                    class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-7 text-left text-sm-right pl-0">
+                                                                    <button
+                                                                        class="text-uppercase btn-bordered btn-bordered-green btn border_custome_btn d-none"
+                                                                        mat-button type="button" (click)="addAdminManpower()">
+                                                                        <i class="fa fa-plus"></i>
+                                                                        Add New
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <!-- contact-form-clonebox -->
+                                                            <div class="p-0  mb-3">
+                                                                <div
+                                                                    class="contact-form-clonebox py-2 px-3 add_input_heading">
+                                                                    <div class="row">
+                                                                        <div
+                                                                            class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-0 add_heading">
+                                                                            <p class="m-0">Admin
+                                                                                Specalization
+                                                                            </p>
+                                                                        </div>
+                                                                        <div
+                                                                            class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-0 add_heading">
+                                                                            <p class="m-0">Number of Omani
+                                                                                Admin
+                                                                            </p>
+                                                                        </div>
+                                                                        <div
+                                                                            class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-0 add_heading">
+                                                                            <p class="m-0">Number of
+                                                                                Non-Omani
+                                                                                Admin</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Add New Section -->
+                                                                <div class="row add_new_row" formArrayName="manpowerAdmin" *ngFor="let eng of userDetailsForm.get('manpowerAdmin')['controls']; let i = index;">
+                                                                    <ng-container [formGroupName]="i">
+                                                                        <div
+                                                                            class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-0">
+                                                                            <div class="form-row mx-0 mb-0">
+                                                                                <mat-form-field>
+                                                                                    <mat-label>
+                                                                                    </mat-label>
+                                                                                    <mat-select placeholder="" formControlName="manpowerAdminSpecialization">
+                                                                                        <mat-option [value]="admin" *ngFor="let admin of stepFiveAdmin">
+                                                                                            {{ admin }}
+                                                                                          </mat-option>
+                                                                                    </mat-select>
+                                                                                </mat-form-field>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div
+                                                                            class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-0">
+                                                                            <div class="form-row mx-0 mb-0">
+                                                                                <mat-form-field>
+                                                                                    <input matInput
+                                                                                        placeholder="" formControlName="manpowerNumberOfOmaniAdmins">
+                                                                                </mat-form-field>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div
+                                                                            class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-0">
+                                                                            <div class="form-row mx-0 mb-0">
+                                                                                <mat-form-field>
+                                                                                    <input matInput type="text"
+                                                                                        placeholder="" formControlName="manpowerNumberOfNonOmaniAdmins">
+                                                                                </mat-form-field>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="delete_row">
+                                                                            <button type="button" *ngIf="i > 1"><i
+                                                                                    class="fa fa-trash-o"></i></button>
+                                                                        </div>
+                                                                    </ng-container>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <!-- Admin Row End -->
+                                                    </div>
+                                                    <!-- contact-form-clonebox -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Do You Use Subcontractors? -->
+                                    <div class="radio_row  col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-4 mt-2">
+                                        <h3 class="step_form_ans">Do You Use Subcontractors?</h3>
+
+                                        <!-- Radio form-row -->
+                                        <div class="custome_check mt-2 d-flex mx-0">
+                                            <mat-radio-group formControlName="subconstructors">
+                                            <div class="ml-0 mr-2 pr-4">
+                                                <mat-radio-button class="primary-radio-button" value="1">
+                                                    Yes
+                                                </mat-radio-button>
+                                            </div>
+                                            <div class="ml-0 mr-0 pr-4">
+                                                <mat-radio-button class="primary-radio-button" value="0">
+                                                    No
+                                                </mat-radio-button>
+                                            </div>
+                                            </mat-radio-group>
+                                        </div>
+                                        <!-- Radio form-row -->
+
+
+                                        <div class="open_yes_div">
+                                            <div class="form-row d-block mx-0 mb-4 mt-1">
+                                                <div>
+                                                    <!-- contact-form-duplicator -->
+                                                    <div
+                                                        class="contact-form-duplicator row mb-3 align-items-center">
+                                                        <div
+                                                            class="col-xl-78 col-lg-8 col-md-7 col-sm-7 col-7 text-left">
+                                                            <!-- <p class="title font15">Please List Main
+                                                                Subcontractor
+                                                                Details</p> -->
+                                                            <h2 class="step_heading">Please List Main Subcontractor Details</h2>
+                                                        </div>
+                                                        <div
+                                                            class="col-xl-4 col-lg-4 col-md-5 col-sm-5 col-5 text-right">
+                                                            <button
+                                                                class="text-uppercase btn-bordered btn-bordered-green btn border_custome_btn d-none"
+                                                                mat-button type="button">
+                                                                <i class="fa fa-plus"></i>
+                                                                Add New
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <!-- contact-form-duplicator -->
+
+
+                                                    <div class="contact-form-clonebox py-2 px-4 mb-3">
+                                                        <div class="row">
+                                                            <div
+                                                                class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                                                <div class="form-row mx-0 mb-2">
+                                                                    <mat-form-field>
+                                                                        <input matInput type="text"
+                                                                            placeholder="Subcontractor Name" formControlName="subcontractorName">
+                                                                    </mat-form-field>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                                                <div class="form-row mx-0 mb-2">
+                                                                    <mat-form-field>
+                                                                        <input matInput type="text"
+                                                                            placeholder="Type of Service Provided" formControlName="typeOfServiceProvided">
+                                                                    </mat-form-field>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                                                <div class="form-row mx-0">
+                                                                    <mat-form-field>
+                                                                        <input matInput
+                                                                            placeholder="Manpower" formControlName="manpower">
+                                                                    </mat-form-field>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                                                <div class="form-row mx-0">
+                                                                    <mat-form-field>
+                                                                        <input matInput
+                                                                            placeholder="Phone Number" formControlName="phoneNumber">
+                                                                    </mat-form-field>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- contact-form-clonebox -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Do You Use Subcontractors? End -->
+
+
+                                    <!-- Machinery -->
+                                    <div class="open_yes_div col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                        <div class="form-row d-block mx-0 mb-4 mt-1">
+                                            <!-- Machinery Row-->
+                                            <div class="sub_row">
+                                                <div
+                                                    class="contact-form-duplicator row mb-2 align-items-center">
+                                                    <div
+                                                        class="col-xl-7 col-lg-7 col-md-7 col-sm-7 col-5 text-left">
+                                                        <!-- <h3 class="step_form_ans mt-3 mb-2">
+                                                            Machinery
+                                                        </h3> -->
+                                                        <h2 class="step_heading">Machinery</h2>
+                                                    </div>
+                                                    <div
+                                                        class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-7 text-left text-sm-right pl-0">
+                                                        <button
+                                                            class="text-uppercase btn-bordered btn-bordered-green btn border_custome_btn d-none"
+                                                            mat-button type="button">
+                                                            <i class="fa fa-plus"></i>
+                                                            Add New
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <!-- contact-form-clonebox -->
+                                                <div class="p-0  mb-3">
+                                                    <div
+                                                        class="contact-form-clonebox py-2 px-3 add_input_heading">
+                                                        <div class="row">
+                                                            <div
+                                                                class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 m-0 add_heading">
+                                                                <p class="m-0">Machine Type
+                                                                </p>
+                                                            </div>
+                                                            <div
+                                                                class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 m-0 add_heading">
+                                                                <p class="m-0">Number of Machine
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Add New Section -->
+                                                    <div class="row add_new_row" formArrayName="machineries" *ngFor="let eng of userDetailsForm.get('machineries')['controls']; let i = index;">
+                                                        <ng-container [formGroupName]="i">
+                                                            <div
+                                                                class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 m-0">
+                                                                <div class="form-row mx-0 mb-0">
+                                                                    <mat-form-field>
+                                                                        <input matInput placeholder="" formControlName="type_of_machine">
+                                                                    </mat-form-field>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 m-0">
+                                                                <div class="form-row mx-0 mb-0">
+                                                                    <mat-form-field>
+                                                                        <input matInput type="text" placeholder="" formControlName="number_of_machine">
+                                                                    </mat-form-field>
+                                                                </div>
+                                                            </div>
+                                                        </ng-container>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                            <!-- Machinery Row End -->
+                                        </div>
+                                    </div>
+                                    <!-- Machinery End -->
+
+
+                                    <!-- Do you rent machinery? -->
+                                    <div
+                                        class="radio_row  col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-4 mt-2">
+                                        <!-- <h3 class="step_form_ans">Do you rent machinery?</h3> -->
+                                        <h2 class="step_heading">Do you rent machinery?</h2>
+
+                                        <!-- Radio form-row -->
+                                        <mat-radio-group formControlName="rentMachinary">
+                                            <div class="custome_check mt-2 d-flex mx-0">
+                                                <div class="ml-0 mr-2 pr-4">
+                                                    <mat-radio-button class="primary-radio-button" value="1">
+                                                        Yes
+                                                    </mat-radio-button>
+                                                </div>
+                                                <div class="ml-0 mr-0 pr-4">
+                                                    <mat-radio-button class="primary-radio-button" value="0">
+                                                        No
+                                                    </mat-radio-button>
+                                                </div>
+                                            </div>
+                                        </mat-radio-group>
+                                        <!-- Radio form-row -->
+                                        <div class="">
+                                            <div class="form-row mx-0">
+                                                <mat-form-field class="w-100">
+                                                    <textarea matInput
+                                                        placeholder="Please Explain" formControlName="rentMachineryDetails"></textarea>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Do you rent machinery? End-->
+
+
+                                    <!-- Do you rent scaffolds? -->
+                                    <div
+                                        class="radio_row  col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-4 mt-2">
+                                        <!-- <h3 class="step_form_ans">Do you rent scaffolds?</h3> -->
+                                        <h2 class="step_heading">Do you rent scaffolds?</h2>
+                                        <mat-radio-group formControlName="rentScaffolds">
+                                        <!-- Radio form-row -->
+                                        <div class="custome_check mt-2 d-flex mx-0">
+                                            <div class="ml-0 mr-2 pr-4">
+                                                <mat-radio-button class="primary-radio-button" value="1">
+                                                    Yes
+                                                </mat-radio-button>
+                                            </div>
+                                            <div class="ml-0 mr-0 pr-4">
+                                                <mat-radio-button class="primary-radio-button" value="0">
+                                                    No
+                                                </mat-radio-button>
+                                            </div>
+
+                                        </div>
+                                        </mat-radio-group>
+                                        <!-- Radio form-row -->
+                                        <div class="">
+                                            <div class="form-row mx-0">
+                                                <mat-form-field class="w-100">
+                                                    <textarea matInput
+                                                        placeholder="Please Explain" formControlName="rentScaffoldsDetails"></textarea>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Do you rent scaffolds? End-->
+
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
+                                        <!-- form-row -->
+                                        <div class="form-row d-block mx-0 mb-2 text-center">
+                                            <button mat-button type="button" (click)="goPrevious(stepper)">Back</button>
+                                            <button class="text-uppercase" mat-raised-button type="button"
+                                                color="primary" matStepperNext>Next
+                                            </button>
+                                        </div>
+                                        <!-- form-row -->
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-step>
+                        <!-- Step5 -->
+
+                        <!-- Step6 -->
+                        <mat-step [stepControl]="Step6">
+                            <div >
+                                <!-- Step Content Heading -->
+                                <h2 class="step_heading mb-3">Client References</h2>
+
+                                <div class="row">
+
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-4">
+                                        <div class="open_yes_div">
+                                            <div class="form-row d-block mx-0 mb-4 mt-1">
+                                                <div >
+                                                    <!-- contact-form-duplicator -->
+                                                    <div
+                                                        class="contact-form-duplicator row mb-3 align-items-center">
+                                                        <div
+                                                            class="col-xl-78 col-lg-8 col-md-7 col-sm-7 col-7 text-left">
+                                                            <p class="title">Client References Details
+                                                                (Minimum 3 Client References Required)</p>
+                                                        </div>
+                                                        <div
+                                                            class="col-xl-4 col-lg-4 col-md-5 col-sm-5 col-5 text-right">
+                                                            <button
+                                                                class="text-uppercase btn-bordered btn-bordered-green btn border_custome_btn d-none"
+                                                                mat-button type="button" (click)="addClients()">
+                                                                <i class="fa fa-plus"></i>
+                                                                Add New
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <!-- contact-form-duplicator -->
+
+
+                                                    <div class="contact-form-clonebox py-2 px-4 mb-3" formArrayName="services">
+                                                        <div class="mb-5" *ngFor="let service of userDetailsForm.get('services')['controls']; let i = index;">
+                                                          <div class="row" [formGroupName]="i">
+
+                                                            <div
+                                                                class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                                                <div class="form-row mx-0 mb-2">
+                                                                    <mat-form-field>
+                                                                        <input matInput type="text"
+                                                                            placeholder="Client Name" formControlName="client_name">
+                                                                    </mat-form-field>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                                                <div class="form-row mx-0">
+                                                                    <mat-form-field>
+                                                                        <input matInput
+                                                                            placeholder="Phone Number" formControlName="phone_num">
+                                                                    </mat-form-field>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                                                <!-- form-row -->
+                                                                <div class="form-row mx-0 mb-2">
+                                                                    <mat-form-field>
+                                                                        <mat-label>Project Location
+                                                                        </mat-label>
+                                                                        <mat-select
+                                                                            placeholder="Project Location" formControlName="clientLocation">
+                                                                            <mat-option value="Muscat">
+                                                                                Muscat
+                                                                            </mat-option>
+                                                                            <mat-option value="Musandam">
+                                                                                Musandam
+                                                                            </mat-option>
+                                                                            <mat-option value="Dhofar">
+                                                                                Dhofar
+                                                                            </mat-option>
+                                                                            <mat-option value="Ash Sharqiyah South">
+                                                                                Ash Sharqiyah South
+                                                                            </mat-option>
+                                                                            <mat-option value="Ash Sharqiyah North">
+                                                                                Ash Sharqiyah North
+                                                                            </mat-option>
+                                                                            <mat-option value="Al Wusta">
+                                                                                Al Wusta
+                                                                            </mat-option>
+                                                                            <mat-option value="Al Buraymi">
+                                                                                Al Buraymi
+                                                                            </mat-option>
+                                                                            <mat-option value="Al Batinah South">
+                                                                                Al Batinah South
+                                                                            </mat-option>
+                                                                            <mat-option value="Al Batinah North">
+                                                                                Al Batinah North
+                                                                            </mat-option>
+                                                                            <mat-option value="Ad Dhahirah">
+                                                                                Ad Dhahirah
+                                                                            </mat-option>
+                                                                            <mat-option value="Ad Dakhiliyah">
+                                                                                Ad Dakhiliyah
+                                                                            </mat-option>
+                                                                        </mat-select>
+                                                                    </mat-form-field>
+                                                                </div>
+                                                                <!-- form-row -->
+                                                            </div>
+                                                            <div
+                                                                class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                                                <div class="form-row mx-0">
+                                                                    <mat-form-field>
+                                                                        <input matInput
+                                                                            placeholder="Project Value" formControlName="project_value">
+                                                                    </mat-form-field>
+                                                                </div>
+                                                            </div>
+
+                                                            <div
+                                                                class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                                                <!-- form-row -->
+                                                                <div class="form-row mx-0">
+                                                                    <mat-form-field>
+                                                                        <mat-label>Project Type
+                                                                        </mat-label>
+                                                                        <mat-select
+                                                                            placeholder="Project Typen" formControlName="project_type">
+                                                                            <mat-option value="Residential">
+                                                                                Residential
+                                                                            </mat-option>
+                                                                            <mat-option value="Commercial">
+                                                                                Commercial
+                                                                            </mat-option>
+                                                                        </mat-select>
+                                                                    </mat-form-field>
+                                                                </div>
+                                                                <!-- form-row -->
+                                                            </div>
+
+                                                            <div
+                                                                class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                                                <div class="form-row mx-0">
+                                                                    <mat-form-field>
+                                                                        <input matInput
+                                                                            placeholder="Project Completion Date" formControlName="project_completion_date">
+                                                                    </mat-form-field>
+                                                                </div>
+                                                            </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+
+                                                </div>
+                                                <!-- contact-form-clonebox -->
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
+                                        <!-- form-row -->
+                                        <div class="form-row d-block mx-0 mb-2 text-center">
+                                            <button mat-button type="button" (click)="goPrevious(stepper)">Back</button>
+                                            <button class="text-uppercase" mat-raised-button type="button"
+                                                color="primary" matStepperNext>Next
+                                            </button>
+                                        </div>
+                                        <!-- form-row -->
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-step>
+                        <!-- Step6 -->
+
+                        <!-- Step7 -->
+                        <mat-step [stepControl]="Step7">
+                            <div >
+                                <!-- Step Content Heading -->
+                                <h2 class="step_heading mb-4">Documents</h2>
+
+
+                                <div class="row">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+                                        <div class="form-row mx-0">
+                                            <mat-form-field class="w-100">
+                                                <textarea matInput
+                                                    placeholder="Comments/Additional Information" formControlName="comments"></textarea>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-5">
+                                        <div class="photo_upload_row row m-0 hes-gallery">
+                                            <div class="text-center col fileupload_box p-1">
+                                                <ng-container *ngIf="contractorResources[0]?.url; else noImage">
+                                                    <!-- <img src="{{ uploadUrl + contractorResources[0]?.url }}" alt="CR Certificate" class="hover" *ngIf="commonService.isImageFile( contractorResources[0]?.url ); else pdfFile"> -->
+                                                    <ng-container 
+                                                        [ngTemplateOutlet]="commonService.isImageFile( contractorResources[0]?.url ) ? imageResource : pdfResource" 
+                                                        [ngTemplateOutletContext]="{link:contractorResources[0]?.url}">
+                                                    </ng-container>
+                                                </ng-container>
+                                                <div class="custom-control custom-switch mt-3" *ngIf="contractorResources[0]?.url">
+                                                    <input type="checkbox" class="custom-control-input" id="customSwitch1" [checked]="contractorResources[0]?.isPublic" (change)="toggleVisibility(contractorResources[0]?.id, $event.target)">
+                                                    <label class="custom-control-label" for="customSwitch1">Show in Public</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="text-center col fileupload_box p-1">
+                                                <ng-container *ngIf="contractorResources[1]?.url; else noImage">
+                                                    <!-- <img src="{{ uploadUrl + contractorResources[1]?.url }}" alt="CR Certificate" class="hover"> -->
+                                                    <ng-container 
+                                                        [ngTemplateOutlet]="commonService.isImageFile( contractorResources[1]?.url ) ? imageResource : pdfResource" 
+                                                        [ngTemplateOutletContext]="{link:contractorResources[1]?.url}">
+                                                    </ng-container>
+                                                </ng-container>
+                                                <div class="custom-control custom-switch mt-3" *ngIf="contractorResources[1]?.url">
+                                                    <input type="checkbox" class="custom-control-input" id="customSwitch2" [checked]="contractorResources[1]?.isPublic" (change)="toggleVisibility(contractorResources[1]?.id, $event.target)">
+                                                    <label class="custom-control-label" for="customSwitch2">Show in Public</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="text-center col fileupload_box p-1">
+                                                <ng-container *ngIf="contractorResources[2]?.url; else noImage">
+                                                    <!-- <img src="{{ uploadUrl + contractorResources[2]?.url }}" alt="CR Certificate" class="hover"> -->
+                                                    <ng-container 
+                                                        [ngTemplateOutlet]="commonService.isImageFile( contractorResources[2]?.url ) ? imageResource : pdfResource" 
+                                                        [ngTemplateOutletContext]="{link:contractorResources[2]?.url}">
+                                                    </ng-container>
+                                                </ng-container>
+                                                <div class="custom-control custom-switch mt-3" *ngIf="contractorResources[2]?.url">
+                                                    <input type="checkbox" class="custom-control-input" id="customSwitch3" [checked]="contractorResources[2]?.isPublic" (change)="toggleVisibility(contractorResources[2]?.id, $event.target)">
+                                                    <label class="custom-control-label" for="customSwitch3">Show in Public</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="text-center col fileupload_box p-1">
+                                                <ng-container *ngIf="contractorResources[3]?.url; else noImage">
+                                                    <!-- <img src="{{ uploadUrl + contractorResources[3]?.url }}" alt="CR Certificate" class="hover"> -->
+                                                    <ng-container 
+                                                        [ngTemplateOutlet]="commonService.isImageFile( contractorResources[3]?.url ) ? imageResource : pdfResource" 
+                                                        [ngTemplateOutletContext]="{link:contractorResources[3]?.url}">
+                                                    </ng-container>
+                                                </ng-container>
+                                                <div class="custom-control custom-switch mt-3" *ngIf="contractorResources[3]?.url">
+                                                    <input type="checkbox" class="custom-control-input" id="customSwitch4" [checked]="contractorResources[3]?.isPublic" (change)="toggleVisibility(contractorResources[3]?.id, $event.target)">
+                                                    <label class="custom-control-label" for="customSwitch4">Show in Public</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="text-center col fileupload_box p-1">
+                                                <ng-container *ngIf="contractorResources[4]?.url; else noImage">
+                                                    <!-- <img src="{{ uploadUrl + contractorResources[4]?.url }}" alt="CR Certificate" class="hover"> -->
+                                                    <ng-container 
+                                                        [ngTemplateOutlet]="commonService.isImageFile( contractorResources[4]?.url ) ? imageResource : pdfResource" 
+                                                        [ngTemplateOutletContext]="{link:contractorResources[4]?.url}">
+                                                    </ng-container>
+                                                </ng-container>
+                                                <div class="custom-control custom-switch mt-3" *ngIf="contractorResources[4]?.url">
+                                                    <input type="checkbox" class="custom-control-input" id="customSwitch5" [checked]="contractorResources[4]?.isPublic" (change)="toggleVisibility(contractorResources[4]?.id, $event.target)">
+                                                    <label class="custom-control-label" for="customSwitch5">Show in Public</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
+                                        <!-- form-row -->
+                                        <div class="form-row d-block mx-0 mb-2 text-center">
+                                            <button mat-button type="button" (click)="goPrevious(stepper)">Back</button>
+                                            <button class="text-uppercase d-none" mat-raised-button type="submit"
+                                                color="primary">Save Changes
+                                            </button>
+                                        </div>
+                                        <!-- form-row -->
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-step>
+                        <!-- Step7 -->
+                    </mat-horizontal-stepper>
+                </div>
+                <!-- login-window-form-holder -->
+            </form>
+        </div>
+        <!-- login-window-form -->
+      </div>
+      <!-- login-window -->
+
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <button class="btn btn-primary mx-1" (click)="goBack()">Back to listing</button>
+    </div>
+  </div>
+
+</div>
+
+<ng-template #noImage>
+    <div class="file_design_wrap">
+        <i class="icon-picture"></i>
+        <p>No File</p>
+    </div>
+</ng-template>
+
+<ng-template #imageResource let-link='link'>
+    <img src="{{ uploadUrl + link }}" alt="CR Certificate" class="hover">
+</ng-template>
+
+<ng-template #pdfResource let-link='link'>
+    <div class="file_design_wrap">
+        <a href="{{ uploadUrl + link }}" target="_blank" rel="noopener noreferrer">
+            <i class="fa fa-file-pdf-o fa-5x text-danger"></i>
+        </a>
+    </div>
+</ng-template>

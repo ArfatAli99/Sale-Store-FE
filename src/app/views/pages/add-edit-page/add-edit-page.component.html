@@ -1,0 +1,76 @@
+<div class="animated fadeIn">
+  <div class="card">
+
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h2 class="card-header-headingText">Edit Our Story</h2>
+    </div>
+
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12 mb-5">
+          <form [formGroup]="createPageForm" (ngSubmit)="createPage()">
+
+            <div class="form-group">
+              <label for="page_title">Title</label>
+              <input type="text" class="form-control" id="page_title" formControlName="pageTitle" />
+              <div class="text-danger" *ngIf="createPageForm.controls.pageTitle.errors && createPageForm.controls.pageTitle.errors.required && (createPageForm.controls.pageTitle.dirty || createPageForm.controls.pageTitle.touched)">
+                This field is required
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="page_title">Title in Arabic</label>
+              <input type="text" class="form-control" id="page_title" formControlName="pageTitleArabic" />
+              <div class="text-danger" *ngIf="createPageForm.controls.pageTitleArabic.errors && createPageForm.controls.pageTitleArabic.errors.required && (createPageForm.controls.pageTitleArabic.dirty || createPageForm.controls.pageTitleArabic.touched)">
+                This field is required
+              </div>
+            </div>
+
+            <div class="form-group d-none">
+              <label for="page_slug">Page Slug</label>
+              <input type="text" class="form-control" id="page_slug" formControlName="pageSlug" />
+              <div class="text-danger" *ngIf="createPageForm.controls.pageSlug.errors && createPageForm.controls.pageSlug.errors.required && (createPageForm.controls.pageSlug.dirty || createPageForm.controls.pageSlug.touched)">
+                This field is required
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="page_content">Short Description</label>
+              <ckeditor #myEditor2 id="editor2" name="editor2" formControlName="pageDescription" [config]="config" (ready)="onReady()"></ckeditor>
+            </div>
+            <div class="form-group">
+              <label for="page_content">Short Description in Arabic</label>
+              <ckeditor #myEditor2 id="editor2" name="editor2" formControlName="pageDescriptionArabic" [config]="config" (ready)="onReady()"></ckeditor>
+            </div>
+
+            <div class="form-group">
+              <label for="page_content">Content</label>
+              <ckeditor #myEditor id="editor1" name="editor1" formControlName="pageContent" [config]="config" (ready)="onReady()"></ckeditor>
+            </div>
+            <div class="form-group">
+              <label for="page_content">Content in Arabic</label>
+              <ckeditor #myEditor id="editor1" name="editor1" formControlName="pageContentArabic" [config]="config" (ready)="onReady()"></ckeditor>
+            </div>
+
+            <div class="form-group">
+              <label for="page_content">Signature</label>
+              <ckeditor id="editor3" name="editor3" formControlName="signature" [config]="config" (ready)="onReady()"></ckeditor>
+            </div>
+            <div class="form-group">
+              <label for="page_content">Signature in Arabic</label>
+              <ckeditor id="editor3" name="editor3" formControlName="signatureArabic" [config]="config" (ready)="onReady()"></ckeditor>
+            </div>
+            <div class="form-group">
+              <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="customSwitch1" formControlName="isPublished" >
+                <label class="custom-control-label" for="customSwitch1">Mark as published</label>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">{{submitBtnText}}</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

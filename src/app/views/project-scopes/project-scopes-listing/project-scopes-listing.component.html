@@ -1,0 +1,115 @@
+<div class="animated fadeIn">
+  <div class="card">
+
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h2 class="card-header-headingText">All Project Scopes</h2>
+      <div class="btn-holder">
+        <a [routerLink]="['/project-scopes/add']" class="btn btn-brand btn-success mr-1"><i class="fa fa-plus"></i> <span>Add Default Scope</span></a>
+        <a [routerLink]="['/custom-project-scopes/add']" class="btn btn-brand btn-info text-white"><i class="fa fa-plus"></i> <span>Add Custom Scope</span></a>
+      </div>
+    </div>
+
+    <!-- ======== -->
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Scope List</span>
+        </div>
+        <input type="text" class="form-control" name="search_text" [(ngModel)]="search_text" placeholder="SOW Name" (keyup.enter)="search()">
+        <select class="custom-select" name="sow_type" [(ngModel)]="sow_type">
+          <option value="">Type</option>
+          <option value="1">Default</option>
+          <option value="2">Custom</option>
+        </select>
+        <select class="custom-select" name="sow_scope_type" [(ngModel)]="sow_scope_type">
+          <option value="">Scope Type</option>
+          <option value="1">Choice</option>
+          <option value="2">Question</option>
+          <option value="3">Notes</option>
+        </select>
+       <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="reset" (click)="clearAll()">Clear</button>
+          <button class="btn btn-brand btn-sm btn-primary" type="button" (click)="search()">Search</button>
+        </div>
+      </div>
+    </div>
+    <!-- ===== -->
+
+    <!-- <div class="card-header d-flex align-items-center justify-content-between">
+      <h2 class="card-header-headingText">All Project Scopes</h2>
+      <div class="btn-holder">
+        <a [routerLink]="['/project-scopes/add']" class="btn btn-brand btn-success mr-1"><i class="fa fa-plus"></i> <span>Add Default Scope</span></a>
+        <a [routerLink]="['/custom-project-scopes/add']" class="btn btn-brand btn-info text-white"><i class="fa fa-plus"></i> <span>Add Custom Scope</span></a>
+      </div>
+    </div> -->
+
+    <div class="card-table">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Type</th>
+              <th scope="col">Scope Type</th>
+              <th scope="col">SOW Name</th>
+              <th scope="col">Created At</th>
+              <th scope="col" style="width: 200px;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let scope of projectScopes; let i = index">
+              <td><strong>{{((pageOffset-1)*limitPerPage)+i+1}}</strong></td>
+              <td>{{ scope.type === 1 ? 'Default' : 'Custom' }}</td>
+              <td>{{ scope.scope_type === 1 ? 'Choice' : 'Question' }}</td>
+              <td title="{{ scope.scope_description }}">{{ scope.scope_description }}</td>
+              <td>{{ scope.createdAt | date:'medium' }}</td>
+              <td>
+                <a href="javascript::void(0)" [routerLink]="['/project-scopes/edit/', scope.id]" routerLinkActive="router-link-active" [state]="{page: pageOffset}"
+                  class="btn btn-brand btn-sm btn-primary mr-1" *ngIf="scope.type == 1">
+                  <i class="fa fa-eye"></i> <span>Edit</span>
+                </a>
+                <a href="javascript::void(0)" [routerLink]="['/custom-project-scopes/edit/', scope.id]" routerLinkActive="router-link-active" [state]="{page: pageOffset}"
+                  class="btn btn-brand btn-sm btn-primary mr-1" *ngIf="scope.type == 2">
+                  <i class="fa fa-eye"></i> <span>Edit</span>
+                </a>
+                <a href="javascript::void(0)" (click)="deleteProjectScope(scope.id)"
+                  class="btn btn-brand btn-sm btn-status btn-danger">
+                  <i class="fa fa-trash-o"></i>
+                  <span>Delete</span>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+    <div class="card-body" *ngIf="countTotalPage == 0">
+      <div class="alert alert-danger mb-0" role="alert">Sorry! No data to display.</div>
+    </div>
+
+    <div class="card-footer" *ngIf="countTotalPage != 0 && countTotalPage>limitPerPage">
+
+      <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+        <li class="page-item disabled" [ngClass]="{disabled:pager.currentPage === 1}">
+          <a class="page-link" (click)="setPage(1)">&laquo;</a>
+        </li>
+        <li class="page-item disabled" [ngClass]="{disabled:pager.currentPage === 1}">
+          <a class="page-link" (click)="setPage(pager.currentPage - 1)">&lsaquo;</a>
+        </li>
+        <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+          <a class="page-link" (click)="setPage(page)">{{page}}</a>
+        </li>
+
+        <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+          <a class="page-link" (click)="setPage(pager.currentPage + 1)">&rsaquo;</a>
+        </li>
+        <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+          <a class="page-link" (click)="setPage(pager.totalPages)">&raquo;</a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</div>

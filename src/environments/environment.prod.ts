@@ -1,0 +1,33 @@
+export const environment = {
+	production: true,
+	api_url: 'https://staging.uiplonline.com:4058/api/',//'http://dev.uiplonline.com:4028/api/','http://192.168.1.166:4028/api/','http://13.234.109.43:4028/api/'
+	base_url: 'https://staging.uiplonline.com/ebinaa/html/',//'http://dev.uiplonline.com/extreme-performance/','http://exp.parts/extreme-performance/'
+	upload_url: 'https://staging.uiplonline.com:4058/uploads/',
+	editor_upload_url: 'https://staging.uiplonline.com:4058/api/admin/upload-image-our-story',
+	socketUrl: 'https://staging.uiplonline.com:4058',
+	emailPattern: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
+	phoneNumberPattern: "^[0-9]{8}$",
+	phoneNumber: "^(\+\d{1,3}[- ]?)?\d{10}$",
+	passwordPattern: /^$|^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*[!@#$%^&*]).{8,}$/,
+	apiInactiveTimeIntervalMinute: 90,
+	accessTokenSetTimeIntervalMinute: 10,
+
+	userListLimit:10,
+	consultantHubListLimit:10,
+	contactFormListLimit: 10,
+	scopesListLimit: 10,
+	projectListLimit: 10,
+	stagesListLimit: 10,
+	partnersLogoListLimit: 10,
+	gridItemLimit: 10,
+	languageListLimit: 10,
+	scopeInfoListLimit: 10,
+	// emailPattern = /^[a-zA-Z0-9.]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,20}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,5}[a-zA-Z0-9])?)*$/ig,
+	articelListingLimit:10,
+	HTTP_STATUS_OK: 200,
+	HTTP_STATUS_CREATED: 201,
+	HTTP_STATUS_UNAUTHENTICATED: 401,
+	HTTP_STATUS_FORBIDDEN: 403,
+	HTTP_STATUS_NOT_FOUND: 404,
+	HTTP_STATUS_INTERNAL_SERVER_ERROR: 500,
+};

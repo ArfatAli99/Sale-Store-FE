@@ -1,0 +1,58 @@
+<div class="animated fadeIn">
+  <div class="card">
+
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h2 class="card-header-headingText">{{cardTitle}}</h2>
+    </div>
+
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12 mb-5">
+          <form [formGroup]="languageForm" (ngSubmit)="updateLanguage()">
+
+            <div class="form-group">
+              <label for="group_name">Group Name <span class="text-danger">*</span></label>
+              <select id="group_name" class="custom-select" formControlName="groupName">
+                <option value=""></option>
+                <option value="{{ languageGroup.key }}" [disabled]="languageGroup.key == 'project-statuses'" *ngFor="let languageGroup of languageGroups | async">{{ languageGroup.value }}</option>
+              </select>
+              <div *ngIf="submitted && formControls.groupName.invalid" class="invalid-feedback">
+                <div *ngIf="formControls.groupName.errors.required">Please select group name</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="language_key">Language Key <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="language_key" formControlName="languageKey" [readonly]="languageId" />
+              <div *ngIf="submitted && formControls.languageKey.invalid" class="invalid-feedback">
+                <div *ngIf="formControls.languageKey.errors.required">Please enter language key</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="english_string">English String <span class="text-danger">*</span></label>
+              <textarea id="english_string" class="form-control" rows="4" formControlName="englishKey"></textarea>
+              <div *ngIf="submitted && formControls.englishKey.invalid" class="invalid-feedback">
+                <div *ngIf="formControls.englishKey.errors.required">Please enter english string</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="arabic_string">Arabic String <span class="text-danger">*</span></label>
+              <textarea id="arabic_string" class="form-control" rows="4" formControlName="arabicKey"></textarea>
+              <div *ngIf="submitted && formControls.arabicKey.invalid" class="invalid-feedback">
+                <div *ngIf="formControls.arabicKey.errors.required">Please enter arabic string</div>
+              </div>
+            </div>
+            <div class="custom-control custom-switch mb-3">
+              <input type="checkbox" class="custom-control-input" id="customSwitch1" formControlName="isActive">
+              <label class="custom-control-label" for="customSwitch1">Active</label>
+            </div>
+
+            <div class="d-block">
+              <button type="submit" class="btn btn-primary">{{submitBtnText}}</button>
+              <button class="btn btn-danger ml-2" type="button" (click)="goBack()">Back</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,161 @@
+<div class="animated fadeIn">
+  <div class="card">
+
+    <div class="card-header">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Users</span>
+          </div>
+          <input type="text" class="form-control" name="search_text" [(ngModel)]="search_text" placeholder="Search..." (keyup.enter)="search()">
+
+          <select class="custom-select" name="user_type" [(ngModel)]="user_type">
+            <option value="0">All</option>
+            <option value="1">Client</option>
+            <option value="2">Consultant</option>
+            <option value="3">Contractor</option>
+          </select>
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="reset" (click)="clearAll()">Clear</button>
+            <button class="btn btn-brand btn-sm btn-primary" type="button" (click)="search()">Search</button>
+          </div>
+        </div>
+    </div>
+
+    <div class="card-table">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col" (click)="sortUsers('id')">ID <i class="fa fa-sort{{ activeSort === 'id' ? activeSortBy === 'desc' ? '-desc' : '-asc' : '' }} ml-2"></i></th>
+            <th scope="col" (click)="sortUsers('name')">Name <i class="fa fa-sort{{ activeSort === 'name' ? activeSortBy === 'desc' ? '-desc' : '-asc' : '' }} ml-2"></i></th>
+            <th scope="col">Phone</th>
+            <th scope="col" (click)="sortUsers('email')">Email <i class="fa fa-sort{{ activeSort === 'email' ? activeSortBy === 'desc' ? '-desc' : '-asc' : '' }} ml-2"></i></th>
+            <th scope="col">Type</th>
+            <th scope="col">Status</th>
+            <th scope="col" (click)="sortUsers('date')">Registered On <i class="fa fa-sort{{ activeSort === 'date' ? activeSortBy === 'desc' ? '-desc' : '-asc' : '' }} ml-2"></i></th>
+            <th scope="col" style="width: 200px;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of usersListDetails; let i = index">
+            <!-- <td><strong>{{((pageOffset-1)*limitPerPage)+i+1}}</strong></td> -->
+            <td><strong>{{ user.id }}</strong></td>
+            <td>{{ user.full_name }}</td>
+            <td>{{ user.phone }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+              <!-- <span *ngIf="user.user_type==0">All</span> -->
+              <span *ngIf="user.user_type==1">Client</span>
+              <span *ngIf="user.user_type==2">Consultant</span>
+              <span *ngIf="user.user_type==3">Contractor</span>
+            </td>
+            <td>
+              <span *ngIf="user.user_type!=3">N/A</span>
+              <span *ngIf="user.user_type==3 && user.status == 0">--</span>
+              <span *ngIf="user.user_type==3 && user.status == 1">Pending</span>
+              <span *ngIf="user.user_type==3 && user.status == 2">Approved</span>
+              <span *ngIf="user.user_type==3 && user.status == 3">Rejected</span>
+            </td>
+
+            <td>{{ user.createdAt | date:'medium' }}</td>
+
+            <td>
+              <a href="javascript::void(0)" [routerLink]="['/users/edit/', user.id]" routerLinkActive="router-link-active" [state]="{page: pageOffset}"
+                class="btn btn-brand btn-sm btn-primary mb-1 mr-1">
+                <i class="fa fa-pencil"></i> <span>Edit</span>
+              </a>
+              <a href="javascript::void(0)" (click)="userStatusActiveDeactive(i)"
+                class="btn btn-brand btn-sm btn-status mb-1 mr-1" [ngClass]="user.is_active==0?'btn-danger':'btn-success'">
+                <i [ngClass]="user.is_active==0?'fa fa-ban':'fa fa-check'"></i>
+                <span *ngIf="user.is_active==1">Active</span>
+                <span *ngIf="user.is_active==0">Inactive</span>
+              </a>
+              <ng-container *ngIf="user.user_type == 2">
+                <button type="button" class="btn btn-brand btn-sm btn-danger mb-1 mr-1" *ngIf="user.consultant_profile_status==1" (click)="approveRejectConsultant(i, 0)">
+                  <i class="fa fa-user-times"></i>
+                  <span>Reject</span>
+                </button>
+                <button type="button" class="btn btn-brand btn-sm btn-success mb-1" *ngIf="user.consultant_profile_status==0" (click)="approveRejectConsultant(i, 1)">
+                  <i class="fa fa-user-plus"></i>
+                  <span>Approve</span>
+                </button>
+              </ng-container>
+              <ng-container *ngIf="user.user_type == 3">
+                <button type="button" class="btn btn-brand btn-sm btn-danger mb-1 mr-1" *ngIf="user.status != 3 && user.is_active==1" (click)="openRejectContractorApplication(i)">
+                  <i class="fa fa-user-times"></i>
+                  <span>Reject</span>
+                </button>
+                <button type="button" class="btn btn-brand btn-sm btn-success mb-1" *ngIf="user.status != 2 && user.is_active==1" (click)="approveContractorApplication(i)">
+                  <i class="fa fa-user-plus"></i>
+                  <span>Approve</span>
+                </button>
+              </ng-container>
+              <a (click)="impersonateUser(user)" class="btn btn-brand btn-sm btn-warning mb-1 mr-1 hover">
+                <i class="fa fa-sign-in"></i> <span>Login</span>
+              </a>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+    <div class="card-body" *ngIf="countTotalPage == 0">
+      <div class="alert alert-danger mb-0" role="alert">Sorry! No data to display.</div>
+    </div>
+
+    <div class="card-footer pb-0" *ngIf="countTotalPage != 0 && countTotalPage>limitPerPage">
+
+      <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+        <li class="page-item disabled" [ngClass]="{disabled:pager.currentPage === 1}">
+          <a class="page-link" (click)="setPage(1)">&laquo;</a>
+        </li>
+        <li class="page-item disabled" [ngClass]="{disabled:pager.currentPage === 1}">
+          <a class="page-link" (click)="setPage(pager.currentPage - 1)">&lsaquo;</a>
+        </li>
+        <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+          <a class="page-link" (click)="setPage(page)">{{page}}</a>
+        </li>
+
+        <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+          <a class="page-link" (click)="setPage(pager.currentPage + 1)">&rsaquo;</a>
+        </li>
+        <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+          <a class="page-link" (click)="setPage(pager.totalPages)">&raquo;</a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="rejectModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="rejectModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form [formGroup]="rejectForm" (ngSubmit)="saveContractorRejection()">
+        <div class="modal-header">
+          <h5 class="modal-title" id="rejectModalTitle">Reject Contractor</h5>
+          <button type="button" class="close" (click)="closeModal()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="reject-content">Reason for rejection</label>
+            <textarea class="form-control" id="reject-content" rows="6" formControlName="reason"></textarea>
+            <div *ngIf="rejectFormSubmitted && formControls.reason.invalid" class="invalid-feedback">
+              <div *ngIf="formControls.reason.errors.required">Please enter some reason</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

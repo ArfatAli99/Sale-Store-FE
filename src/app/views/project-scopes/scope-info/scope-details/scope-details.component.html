@@ -1,0 +1,110 @@
+<div class="animated fadeIn">
+    <div class="card">
+
+        <div class="card-header d-flex align-items-center justify-content-between">
+            <h2 class="card-header-headingText">{{cardTitle}}</h2>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12 mb-5">
+                    <form [formGroup]="scopeForm" (ngSubmit)="updateScopeDetails()">
+
+
+                        <div class="form-group">
+                            <label for="section_category">Section Category <span class="text-danger">*</span></label>
+                            <select id="section_category" class="custom-select" formControlName="sectionCategory">
+                                <option value=""></option>
+                                <option value="{{ scopeGroup.id }}" *ngFor="let  scopeGroup of sectioncategories">
+                                    {{scopeGroup.name }}
+                                </option>
+                            </select>
+                            <div *ngIf="submitted && formControls.sectionCategory.invalid" class="invalid-feedback">
+                                <div *ngIf="formControls.sectionCategory.errors.required">Please select Section Category
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="main_category">Main Category <span class="text-danger">*</span></label>
+                            <select id="main_category" class="custom-select" formControlName="mainCategory">
+                                <option value=""></option>
+                                <option value="{{ scopeGroup.id }}" *ngFor="let scopeGroup of maincategories">
+                                    {{scopeGroup.name }}
+                                </option>
+                            </select>
+                            <div *ngIf="submitted && formControls.mainCategory.invalid" class="invalid-feedback">
+                                <div *ngIf="formControls.mainCategory.errors.required">Please select Main Category</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sow_category">SOW Category <span class="text-danger">*</span></label>
+                            <select id="sow_category" class="custom-select" formControlName="sowCategory">
+                                <option value=""></option>
+                                <option value="{{ scopeGroup.id }}" *ngFor="let scopeGroup of sowcategories">
+                                    {{scopeGroup.scope_description }}</option>
+                            </select>
+                            <div *ngIf="submitted && formControls.sowCategory.invalid" class="invalid-feedback">
+                                <div *ngIf="formControls.sowCategory.errors.required">Please select Sow Category</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="section_no">Section No <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="section_no" formControlName="sectionNo" />
+                            <div *ngIf="submitted && formControls.sectionNo.invalid" class="invalid-feedback">
+                                <div *ngIf="formControls.sectionNo.errors.required">Please enter section no</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="make_equivalent">Make or Equivalent </label>
+                            <input type="text" class="form-control" id="make_equivalent" formControlName="makeEquivalent" />
+                            <div *ngIf="submitted && formControls.makeEquivalent.invalid" class="invalid-feedback">
+                                <div *ngIf="formControls.makeEquivalent.errors.required">Please select Make or
+                                    Equivalent </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="make_equivalent_arabic">Make or Equivalent (in Arabic)</label>
+                            <input type="text" class="form-control" id="make_equivalent_arabic" formControlName="makeEquivalentArabic" />
+                            <div *ngIf="submitted && formControls.makeEquivalentArabic.invalid"
+                                class="invalid-feedback">
+                                <div *ngIf="formControls.makeEquivalentArabic.errors.required">Please select Make or
+                                    Equivalent in
+                                    Arabic</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Description <span class="text-danger">*</span></label>
+                            <textarea id="description" class="form-control" rows="4"
+                                formControlName="description"></textarea>
+                            <div *ngIf="submitted && formControls.description.invalid" class="invalid-feedback">
+                                <div *ngIf="formControls.description.errors.required">Please enter Description </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description_arabic">Description (in Arabic)<span
+                                    class="text-danger">*</span></label>
+                            <textarea id="description_arabic" class="form-control" rows="4"
+                                formControlName="descriptionArabic"></textarea>
+                            <div *ngIf="submitted && formControls.descriptionArabic.invalid" class="invalid-feedback">
+                                <div *ngIf="formControls.descriptionArabic.errors.required">Please enter Description in
+                                    Arabic</div>
+                            </div>
+                        </div>
+
+                        <div class="d-block">
+                            <button type="submit" class="btn btn-primary">{{submitBtnText}}</button>
+                            <button class="btn btn-danger ml-2" type="button" (click)="goBack()">Back</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

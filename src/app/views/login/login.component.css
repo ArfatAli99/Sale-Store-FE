@@ -1,0 +1,8 @@
+.input-group-append>.input-group-text {
+	cursor: pointer;
+	background-color: transparent;
+}
+
+input.form-control[name='password'] {
+	border-right: 0;
+}

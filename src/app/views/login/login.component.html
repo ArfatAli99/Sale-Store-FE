@@ -1,0 +1,65 @@
+<div class="app-body">
+	<main class="main d-flex align-items-center">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 mx-auto">
+					<div *ngIf="show_alert" class="alert btn-danger">
+						<button type="button" class="close" data-dismiss="alert"
+							(click)="closeErrorMsg()">&times;</button>
+						{{this.show_error_msg}}!
+					</div>
+					<div class="card-group">
+						<div class="card p-4">
+							<div class="logo-holder mx-auto"><img src="assets/img/EBinaa-Logo-Colored.svg"></div>
+							<div class="card-body">
+								<form #productform="ngForm" (ngSubmit)="loginuser()">
+									<h1 class="login-headingText">Login</h1>
+									<p class="text-muted">Sign In to your account</p>
+									<div class="input-group mb-3">
+										<div class="input-group-prepend">
+											<span class="input-group-text"><i class="icon-envelope-open"></i></span>
+										</div>
+										<input type="text" name="email" [(ngModel)]="email" class="form-control"
+											id="email" placeholder="Enter email" required>
+
+									</div>
+									<div class="input-group mb-4">
+										<div class="input-group-prepend">
+											<span class="input-group-text"><i class="icon-lock"></i></span>
+										</div>
+										<input type="{{ showPass === false ? 'password' : 'text'}}" name="password" [(ngModel)]="password"
+											class="form-control" id="password" placeholder="Enter password" required>
+
+										<div class="input-group-append">
+											<span class="input-group-text" (click)="showPass = !showPass">
+												<i class="fa" [ngClass]="{'fa-eye-slash': showPass === false, 'fa-eye': showPass === true}"></i>
+											</span>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-6">
+											<button type="submit" class="btn btn-primary px-4">Login</button>
+										</div>
+										<div class="col-6 text-right">
+											<button type="button" class="btn btn-link px-0"
+												routerLink="/forgot-password">Forgot password?</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+
+						<!-- <div class="card-body text-center">
+                <div>
+                  <h2>Sign up</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                  <button type="button" class="btn btn-primary active mt-3">Register Now!</button>
+                </div>
+              </div> -->
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+</div>

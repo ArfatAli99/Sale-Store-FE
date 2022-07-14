@@ -1,0 +1,56 @@
+<div class="animated fadeIn">
+  <div class="card">
+
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h2 class="card-header-headingText">{{ cardTitle }}</h2>
+    </div>
+
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12 mb-5">
+          <form [formGroup]="projectScopeForm" (ngSubmit)="submitForm()">
+            <div class="form-group">
+              <label for="type">Type</label>
+              <select id="type" class="custom-select" formControlName="type">
+                <option value="1">Default</option>
+              </select>
+            </div>
+            <div class="form-group d-none">
+              <label for="scope_type">Scope Type</label>
+              <select id="scope_type" class="custom-select" formControlName="scopeType">
+                <option value="0"></option>
+                <option value="1">Choice</option>
+                <option value="2">Question</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="group_name">Group Name</label>
+              <select id="group_name" class="custom-select" formControlName="groupName">
+                <option value="supply_and_install_by_contractor">Supply and Install by Contractor</option>
+                <option value="supply_and_install_by_client">Supply and Install by Client</option>
+                <option value="supplied_by_client_and_installed_by_contractor">Supplied by client and Installed by Contractor</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="scope_details">SOW Name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="scope_details" formControlName="scopeDetails" />
+              <div *ngIf="projectScopeFormSubmitted && projectScopeFormControls.scopeDetails.invalid" class="invalid-feedback">
+                <div *ngIf="projectScopeFormControls.scopeDetails.errors.required">Please enter sow name</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="scope_details_arabic">SOW Name (in Arabic) <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="scope_details_arabic" formControlName="scopeDetailsArabic" />
+              <div *ngIf="projectScopeFormSubmitted && projectScopeFormControls.scopeDetailsArabic.invalid" class="invalid-feedback">
+                <div *ngIf="projectScopeFormControls.scopeDetailsArabic.errors.required">Please enter sow name in arabic</div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">{{submitBtnText}}</button>
+            <button class="btn btn-danger mx-1" type="button" (click)="goBack()">Back</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

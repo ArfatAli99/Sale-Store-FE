@@ -1,0 +1,42 @@
+<div class="animated fadeIn">
+  <div class="card">
+
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h2 class="card-header-headingText">CMS Page Blocks</h2>
+      <div class="btn-holder d-none">
+        <a [routerLink]="['/pages/create']" class="btn btn-brand btn-success"><i class="fa fa-plus"></i> <span>Add New Page Block</span></a>
+      </div>
+    </div>
+
+    <div class="card-table">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Page Title</th>
+            <th scope="col">Is Active?</th>
+            <th scope="col">Created On</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let page of pagesList; let i = index">
+            <th scope="row">1</th>
+            <td>{{ page.name }}</td>
+            <td>
+              <i class="fa fa-check-circle fa-2x text-success" *ngIf="page.is_published; else inActive"></i>
+              <ng-template #inActive>
+                <i class="fa fa-times-circle fa-2x text-danger"></i>
+              </ng-template>
+            </td>
+            <td>{{ page.createdAt | date:'medium' }}</td>
+            <td>
+              <a class="btn btn-outline-primary btn-sm" routerLink="/pages/edit/{{ page.slug }}">Edit Block</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

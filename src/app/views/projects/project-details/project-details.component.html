@@ -1,0 +1,628 @@
+<div class="animated fadeIn">
+  <!-- Card Start -->
+  <div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h2 class="card-header-headingText">
+        Project Details
+        <span class="badge badge-secondary">{{ getProjectStatus(projectStatus) }}</span>
+      </h2>
+      <div class="btn-wrap float-right">
+        <a href="javascript::void(0)" (click)="downloadScope()" class="btn btn-brand btn-sm btn-status btn-info text-white mr-1" *ngIf="projectStatus > 0" title="Download project scope as pdf">
+          <i class="fa fa-download"></i>
+          <span>Scope</span>
+        </a>
+        <a href="javascript::void(0)" (click)="setProjectActive()" class="btn btn-brand btn-sm btn-status btn-success mr-1" *ngIf="projectStatus === 1" title="Approve this project">
+          <i class="fa fa-check"></i>
+          <span>Approve</span>
+        </a>
+        <ng-container *ngIf="projectSignedByBoth">
+          <select class="custom-select custom-select-sm w-auto" [(ngModel)]="contractLanguage" (change)="selectContractLanguage()">
+            <option value="">Download Contract</option>
+            <option value="en">English</option>
+            <option value="ara">Arabic</option>
+          </select>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <form [formGroup]="projectDetailsForm" (ngSubmit)="updateProjectDetails()">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="project_name">Project Name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="project_name" formControlName="projectName" />
+              <div *ngIf="projectDetailsFormSubmitted && projectDetailsFormControls.projectName.invalid" class="invalid-feedback">
+                <div *ngIf="projectDetailsFormControls.projectName.errors.required">Please enter project name</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="project_location">Project Location <span class="text-danger">*</span></label>
+              <select formControlName="projectLocation" id="project_location" class="custom-select" *ngIf="submittedFormLanguage == 'en'">
+                <option value="{{ location }}" *ngFor="let location of projectLocations">{{ location }}</option>
+              </select>
+              <select formControlName="projectLocation" id="project_location" class="custom-select" *ngIf="submittedFormLanguage == 'ara'">
+                <option value="{{ location }}" *ngFor="let location of projectLocationsInArabic">{{ location }}</option>
+              </select>
+              <div *ngIf="projectDetailsFormSubmitted && projectDetailsFormControls.projectLocation.invalid" class="invalid-feedback">
+                <div *ngIf="projectDetailsFormControls.projectLocation.errors.required">Please select project location</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="project_use">Project Use <span class="text-danger">*</span></label>
+              <select formControlName="projectUse" id="project_use" class="custom-select">
+                <option value="Residential">Residential</option>
+                <option value="Commercial">Commercial</option>
+              </select>
+              <div *ngIf="projectDetailsFormSubmitted && projectDetailsFormControls.projectUse.invalid" class="invalid-feedback">
+                <div *ngIf="projectDetailsFormControls.projectUse.errors.required">Please select project use</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="plot_area">Plot Area (m<sup>2</sup>) <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="plot_area" formControlName="plotArea" />
+              <div *ngIf="projectDetailsFormSubmitted && projectDetailsFormControls.plotArea.invalid" class="invalid-feedback">
+                <div *ngIf="projectDetailsFormControls.plotArea.errors.required">Please enter plot area</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="built_up_area">Built Up Area (m<sup>2</sup>) <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="built_up_area" formControlName="builtUpArea" />
+              <div *ngIf="projectDetailsFormSubmitted && projectDetailsFormControls.builtUpArea.invalid" class="invalid-feedback">
+                <div *ngIf="projectDetailsFormControls.builtUpArea.errors.required">Please enter built up area</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="basement">Basement <span class="text-danger">*</span></label>
+              <select formControlName="basement" id="basement" class="custom-select">
+                <option value="0">No Basement</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+              <div *ngIf="projectDetailsFormSubmitted && projectDetailsFormControls.basement.invalid" class="invalid-feedback">
+                <div *ngIf="projectDetailsFormControls.basement.errors.required">Please select basement</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="levelling_floor">Levelling Floor <span class="text-danger">*</span></label>
+              <select id="levelling_floor" class="custom-select" formControlName="levellingFloor">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+              <div *ngIf="projectDetailsFormSubmitted && projectDetailsFormControls.levellingFloor.invalid" class="invalid-feedback">
+                <div *ngIf="projectDetailsFormControls.levellingFloor.errors.required">Please select levelling floor</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="ground_floor">Ground Floor <span class="text-danger">*</span></label>
+              <select id="ground_floor" class="custom-select" formControlName="goundFloor">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+              <div *ngIf="projectDetailsFormSubmitted && projectDetailsFormControls.goundFloor.invalid" class="invalid-feedback">
+                <div *ngIf="projectDetailsFormControls.goundFloor.errors.required">Please select ground floor</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="additional_floors">Additional Floors <span class="text-danger">*</span></label>
+              <select formControlName="additionalFloors" id="additional_floors" class="custom-select">
+                <option [value]="0">0</option>
+                <option [value]="1">1</option>
+                <option [value]="2">2</option>
+                <option [value]="3">3</option>
+                <option [value]="4">4</option>
+                <option [value]="5">5</option>
+                <option [value]="6">6</option>
+                <option [value]="7">7</option>
+                <option [value]="8">8</option>
+                <option [value]="9">9</option>
+              </select>
+              <div *ngIf="projectDetailsFormSubmitted && projectDetailsFormControls.additionalFloors.invalid" class="invalid-feedback">
+                <div *ngIf="projectDetailsFormControls.additionalFloors.errors.required">Please enter additional floors</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="pent_floor">Penthouse Floor <span class="text-danger">*</span></label>
+              <select id="pent_floor" class="custom-select" formControlName="pentFloor">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+              <div *ngIf="projectDetailsFormSubmitted && projectDetailsFormControls.pentFloor.invalid" class="invalid-feedback">
+                <div *ngIf="projectDetailsFormControls.pentFloor.errors.required">Please enter penthouse floor</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="is_all_drawing">Are you building all the floors & rooms on the drawing? <span class="text-danger">*</span></label>
+              <select id="is_all_drawing" class="custom-select" formControlName="isAllDrawing" (change)="toggleDrawing()">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6" *ngIf="this.apiProjectDetails?.is_all_drawing == 0">
+            <div class="form-group">
+              <label for="clarification">Clarification <span class="text-danger">*</span></label>
+              <textarea id="clarification" class="form-control" rows="4" formControlName="clarification"></textarea>
+              <div *ngIf="projectDetailsFormSubmitted && projectDetailsFormControls.clarification.invalid" class="invalid-feedback">
+                <div *ngIf="projectDetailsFormControls.clarification.errors.required">Please enter clarification</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="land_serial_number">Land Serial Number <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="land_serial_number" formControlName="landSerialNumber" [textMask]="{mask: landSerialMask, placeholderChar: '\u2000'}" />
+              <div *ngIf="projectDetailsFormSubmitted && projectDetailsFormControls.landSerialNumber.invalid" class="invalid-feedback">
+                <div *ngIf="projectDetailsFormControls.landSerialNumber.errors.required">Please enter land serial number</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="owner_national_id">Owner National ID Number <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="owner_national_id" formControlName="ownerNationalId" />
+              <div *ngIf="projectDetailsFormSubmitted && projectDetailsFormControls.ownerNationalId.invalid" class="invalid-feedback">
+                <div *ngIf="projectDetailsFormControls.ownerNationalId.errors.required">Please enter owner national id number</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="special_request">Any Special Request? <span class="text-danger">*</span></label>
+              <textarea id="special_request" class="form-control" rows="4" formControlName="specialRequest"></textarea>
+              <div *ngIf="projectDetailsFormSubmitted && projectDetailsFormControls.specialRequest.invalid" class="invalid-feedback">
+                <div *ngIf="projectDetailsFormControls.specialRequest.errors.required">Please enter special request</div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="timeof_project">Is the owner same as the user?</label>
+              <select id="timeof_project" class="custom-select" formControlName="isUserOwner">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="timeof_project">Call back date</label>
+              <input matInput [matDatepicker]="picker" class="form-control" formControlName="callBackDate" (click)="picker.open()">
+              <mat-datepicker #picker></mat-datepicker>
+              <div *ngIf="projectDetailsFormSubmitted && projectDetailsFormControls.callBackDate.invalid" class="invalid-feedback">
+                <div *ngIf="projectDetailsFormControls.callBackDate.errors.required">Please enter call back date</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="color_tag">Color Tag</label>
+              <select id="color_tag" class="custom-select" formControlName="colorTag">
+                <option value="">Select Color</option>
+                <option value="#e61b1b">Red</option>
+                <option value="#ffce00">Yellow</option>
+                <option value="#007f55">Green</option>
+                <option value="#d1d3d4">No Color</option>
+              </select>
+              <div *ngIf="projectDetailsFormSubmitted && projectDetailsFormControls.colorTag.invalid" class="invalid-feedback">
+                <div *ngIf="projectDetailsFormControls.colorTag.errors.required">Please select Color Tag</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="notes">Notes</label>
+              <textarea id="notes" class="form-control" rows="5" formControlName="notes"></textarea>
+            </div>
+          </div>
+
+
+          <div class="col-12 mt-3" *ngIf="projectStatus == 1">
+            <button type="submit" class="btn btn-primary">{{submitBtnText}}</button>
+            <!-- <button class="btn btn-danger mx-1" type="button">Back</button> -->
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Card End -->
+
+  <!-- Card Start -->
+  <div class="card" *ngIf="projectStatus > 0">
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h2 class="card-header-headingText">Project Stages</h2>
+      <div class="btn-wrap">
+        <button class="btn btn-info btn-sm text-white mr-1" (click)="openSaveTemplateModal()" [disabled]="projectStages.length === 0">Save as a template</button>
+        <button class="btn btn-warning btn-sm text-dark mr-1" (click)="openStageTemplateModal()">Import</button>
+        <button class="btn btn-success btn-sm" [routerLink]="['/project-stages/add/', projectId]">Create Stage</button>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Sequence</th>
+                <th>Name</th>
+                <!-- <th>Description</th> -->
+                <th>Max Percentage</th>
+                <th>Max Pullback</th>
+                <th>No. of Tasks</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let stage of projectStages; let i = index">
+                <td>{{ stage.name == "maintenance" ? "" : stage.sequence }}</td>
+                <!-- <td title="{{ stage.name }}">{{ stage.name | truncate: 15 }}</td> -->
+                <td title="{{ stage.description }}">{{ stage.description }}</td>
+                <td>{{ stage.maximum_allowed_percentage }}</td>
+                <td>{{ stage.max_allow_pullback }}</td>
+                <td>{{ stage.project_tasks.length }}</td>
+                <td>
+                  <a class="btn btn-info btn-sm text-white mr-1" [routerLink]="['/project-stages/edit/', projectId, stage.id]">View & Manage Tasks</a>
+                  <a class="btn btn-danger btn-sm hover" *ngIf="i > 0 && (i < projectStages.length - 1)" (click)="deleteStage(projectId, stage.id)">Delete</a>
+                </td>
+              </tr>
+              <tr *ngIf="projectStages.length === 0">
+                <td colspan="6" align="center">No data to display</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Card End -->
+
+  <!-- Card Start -->
+  <div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h2 class="card-header-headingText">Project Scope</h2>
+      <div class="btn-wrap">
+        <button class="btn btn-success btn-sm" [routerLink]="['/projects/update-custom-scopes/', projectId]" *ngIf="projectStatus === 1">Manage Scopes</button>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <p class="lead">Supply and Install by Contractor</p>
+          <ol class="list-inline1">
+            <li *ngFor="let item of supplyAndInstallByContractorScope">{{ item.q_result == 1 ? item.project_scope.project_question_in_english : item.project_scope.scope_description }}</li>
+          </ol>
+        </div>
+        <div class="col-md-4">
+          <p class="lead">Supply and Install by Client</p>
+          <ol class="list-inline1">
+            <li *ngFor="let item of supplyAndInstallByClientScope">{{ item.q_result == 1 ? item.project_scope.project_question_in_english : item.project_scope.scope_description }}</li>
+          </ol>
+        </div>
+        <div class="col-md-4">
+          <p class="lead">Supplied by Client and Installed by Contractor</p>
+          <ol class="list-inline1">
+            <li *ngFor="let item of suppliedByClientAndInstalledByContractorScope">{{ item.q_result == 1 ? item.project_scope.project_question_in_english : item.project_scope.scope_description }}</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Card End -->
+
+  <!-- Card Start -->
+  <div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h2 class="card-header-headingText">Project Docs</h2>
+      <div class="btn-wrap float-right" *ngIf="projectStatus > 0">
+
+
+        <div class="form-row d-block mx-0 text-center mt-2">
+          <input type="file" class="d-none" #fileField (change)="postMethodFile($event)"
+            accept=".pdf, .png, .jpg, .jpeg">
+            <button class="btn btn-primary text-white btn-sm ml-2" type="button" (click)="selectFile('drawing')">Upload Drawing</button>
+            <button class="btn btn-primary text-white btn-sm ml-2" type="button"  (click)="selectFile('document')">Upload Doc</button>
+        </div>
+    </div>
+    </div>
+    <div class="card-body">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Tags</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let doc of projectDocs; let i = index">
+            <td>{{ doc.type | titlecase }}</td>
+            <td>{{ doc.tags || '&mdash;' }}</td>
+            <td>
+              <a class="btn btn-success btn-sm text-white mr-1" target="_blank" href="{{ baseImageUrl + doc.resource_url }}">Download</a>
+              <button class="btn btn-primary btn-sm mr-1" type="button" (click)="chooseDocFile(i)" *ngIf="projectStatus > 0">Change</button>
+              <button class="btn btn-warning btn-sm mr-1 text-dark" type="button" (click)="changeDocTags(doc.id)" *ngIf="projectStatus > 0 && doc.type != 'other'">Change Tags</button>
+              <button class="btn btn-danger btn-sm" type="button" (click)="deleteDocFile(doc.id)" *ngIf="projectStatus > 0">Delete</button>
+            </td>
+          </tr>
+          <tr *ngIf="projectDocs.length === 0">
+            <td colspan="3" align="center">No data to display</td>
+          </tr>
+        </tbody>
+      </table>
+      <input type="file" #projectDoc (change)="changeDoc($event.target.files)" class="d-none">
+    </div>
+  </div>
+  <!-- Card End -->
+
+  <!-- Card Start -->
+  <div class="card" *ngIf="projectBids.length > 0">
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h2 class="card-header-headingText">Project Bids</h2>
+    </div>
+    <div class="card-body">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>Contractor Name</th>
+            <th>Phone</th>
+            <th>Email Address</th>
+            <th>Price (in OMR)</th>
+            <th>Days</th>
+            <th>Submitted At</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let bid of projectBids; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ bid.user.full_name | titlecase }}</td>
+            <td>{{ bid.user.phone }}</td>
+            <td>{{ bid.user.email }}</td>
+            <td>{{ bid.price | number }}</td>
+            <td>{{ bid.days | number }}</td>
+            <td>{{ bid.createdAt | date:'medium' }}</td>
+          </tr>
+          <tr *ngIf="projectBids.length === 0">
+            <td colspan="7" align="center">No data to display</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- Card End -->
+
+
+  <!-- card for client details -->
+
+  <div class="card" *ngIf="clientDetails">
+
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h2 class="card-header-headingText">
+        Client Details
+      </h2>
+      <div class="btn-wrap float-right">
+
+      </div>
+    </div>
+    <div class="card-body">
+      <dl class="row">
+        <dt class="col-sm-3">Full Name</dt>
+        <dd class="col-sm-9">{{clientDetails?.full_name}}</dd>
+      </dl>
+      <dl class="row">
+        <dt class="col-sm-3">Email Id</dt>
+        <dd class="col-sm-9">{{ clientDetails?.email}}</dd>
+      </dl>
+      <dl class="row">
+        <dt class="col-sm-3">Contact No.</dt>
+        <dd class="col-sm-9">{{ clientDetails?.phone}}</dd>
+      </dl>
+
+    </div>
+  </div>
+
+  <div class="card" *ngIf="contractorDetails">
+
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h2 class="card-header-headingText">
+        Contractor Details
+      </h2>
+      <div class="btn-wrap float-right">
+
+      </div>
+    </div>
+    <div class="card-body">
+      <dl class="row">
+        <dt class="col-sm-3">Full Name</dt>
+        <dd class="col-sm-9">{{contractorDetails?.user.full_name |titlecase}}</dd>
+      </dl>
+      <dl class="row">
+        <dt class="col-sm-3">Email Id</dt>
+        <dd class="col-sm-9">{{contractorDetails?.user.email}}</dd>
+      </dl>
+      <dl class="row">
+        <dt class="col-sm-3"> City</dt>
+        <dd class="col-sm-9">{{contractorDetails?.user.city}}</dd>
+      </dl>
+      <dl class="row">
+        <dt class="col-sm-3">Contact No.</dt>
+        <dd class="col-sm-9">{{contractorDetails?.user.phone}}</dd>
+      </dl>
+      <dl class="row">
+        <dt class="col-sm-3">Company Name</dt>
+        <dd class="col-sm-9">{{contractorDetails?.user.company_name}}</dd>
+      </dl>
+
+    </div>
+  </div>
+
+  <div class="card" *ngIf="consultantDetails">
+
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h2 class="card-header-headingText">
+        Consultant Details
+      </h2>
+      <div class="btn-wrap float-right">
+
+      </div>
+    </div>
+    <div class="card-body">
+      <dl class="row">
+        <dt class="col-sm-3">Full Name</dt>
+        <dd class="col-sm-9">{{consultantDetails?.user_details.full_name |titlecase}}</dd>
+      </dl>
+      <dl class="row">
+        <dt class="col-sm-3">Email Id</dt>
+        <dd class="col-sm-9">{{consultantDetails?.user_details.email}}</dd>
+      </dl>
+      <dl class="row">
+        <dt class="col-sm-3"> City</dt>
+        <dd class="col-sm-9">{{consultantDetails?.user_details.city}}</dd>
+      </dl>
+      <dl class="row">
+        <dt class="col-sm-3">Contact No.</dt>
+        <dd class="col-sm-9">{{consultantDetails?.user_details.phone}}</dd>
+      </dl>
+      <dl class="row">
+        <dt class="col-sm-3">Company Name</dt>
+        <dd class="col-sm-9">{{consultantDetails?.user_details.company_name}}</dd>
+      </dl>
+
+    </div>
+  </div>
+
+
+<!-- ENDs here - card for client details -->
+
+</div>
+
+
+
+
+<!-- Import Template Modal -->
+<div class="modal fade" id="templateModal" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form [formGroup]="templateImportForm" (ngSubmit)="importTemplate()">
+        <div class="modal-header">
+          <h5 class="modal-title" id="taskModalTitle">Import Template</h5>
+          <button type="button" class="close" (click)="closeTemplateModal()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="task_type">Choose Template <span class="text-danger">*</span></label>
+            <select id="task_type" class="custom-select" formControlName="template">
+              <option value="{{ template.id }}" *ngFor="let template of stageTemplates">{{ template.name }}</option>
+            </select>
+            <div *ngIf="importTemplateFormSubmitted && importTemplateFormControls.template.invalid" class="invalid-feedback">
+              <div *ngIf="importTemplateFormControls.template.errors.required">Please select template</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeTemplateModal()">Close</button>
+          <button type="submit" class="btn btn-primary">Import</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- End of Import Template Modal -->
+
+
+
+<!-- Save Template Modal -->
+<div class="modal fade" id="saveTemplateModal" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form [formGroup]="saveTemplateForm" (ngSubmit)="saveAsTemplate()">
+        <div class="modal-header">
+          <h5 class="modal-title" id="taskModalTitle">Create Template</h5>
+          <button type="button" class="close" (click)="closeSaveTemplateModal()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="template_name">Template Name <span class="text-danger">*</span></label>
+            <input type="text" id="template_name" class="form-control" formControlName="templateName">
+            <div *ngIf="saveTemplateFormSubmitted && saveTemplateFormControls.templateName.invalid" class="invalid-feedback">
+              <div *ngIf="saveTemplateFormControls.templateName.errors.required">Please enter template name</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeSaveTemplateModal()">Close</button>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- End of Save Template Modal -->
+
+
+
+<!-- Change Doc Tags Modal -->
+<div class="modal fade" id="saveDocTagsModal" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form [formGroup]="changeDocTagsForm" (ngSubmit)="saveDocTags()">
+        <div class="modal-header">
+          <h5 class="modal-title">Change File Tags</h5>
+          <button type="button" class="close" (click)="closeDocTagsModal()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="template_name">Select Tags <span class="text-danger">*</span></label>
+            <select class="custom-select" formControlName="docTag" multiple>
+              <option value="{{ tag.tag_name }}" *ngFor="let tag of docTags" [selected]="selectedDocTags.includes(tag.tag_name)">{{ tag.tag_name }}</option>
+            </select>
+            <div *ngIf="saveDocTagsFormSubmitted && saveDocTagsFormControls.docTag.invalid" class="invalid-feedback">
+              <div *ngIf="saveDocTagsFormControls.docTag.errors.required">Please select atleast 1 tag</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <input type="hidden" formControlName="docId">
+          <button type="button" class="btn btn-secondary" (click)="closeDocTagsModal()">Close</button>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- End of Change Doc Tags Modal -->

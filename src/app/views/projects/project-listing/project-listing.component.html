@@ -1,0 +1,145 @@
+<div class="animated fadeIn">
+  <div class="card">
+
+    <div class="card-header">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Projects</span>
+          </div>
+          <input type="text" class="form-control" name="search_text" [(ngModel)]="search_text" placeholder="Search..." (keyup.enter)="search()">
+          <select class="custom-select" name="project_type" [(ngModel)]="project_type">
+            <option value="">All</option>
+            <!-- <option value="new">New</option> -->
+            <option value="draft">Draft</option>
+            <option value="approved">Preparing for Tender</option>
+            <option value="awarded">Awarded</option>
+            <option value="signed">Signed</option>
+            <!-- <option value="">Active</option> -->
+            <option value="reject">Returned</option>
+            <option value="closed">Archived</option>
+          </select>
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="reset" (click)="clearAll()">Clear</button>
+            <button class="btn btn-brand btn-sm btn-primary" type="button" (click)="search()">Search</button>
+          </div>
+        </div>
+    </div>
+
+    <div class="card-table">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col" (click)="sortProjects('id')">Project ID <i class="fa fa-sort{{ activeSort === 'id' ? activeSortBy === 'desc' ? '-desc' : '-asc' : '' }} ml-2"></i></th>
+              <th scope="col" (click)="sortProjects('name')">Project Name <i class="fa fa-sort{{ activeSort === 'name' ? activeSortBy === 'desc' ? '-desc' : '-asc' : '' }} ml-2"></i></th>
+              <th scope="col" class="text-center">Status</th>
+              <th scope="col" (click)="sortProjects('user')">Created By <i class="fa fa-sort{{ activeSort === 'user' ? activeSortBy === 'desc' ? '-desc' : '-asc' : '' }} ml-2"></i></th>
+              <th scope="col">Project Status</th>
+              <th scope="col" (click)="sortProjects('created_at')">Created At <i class="fa fa-sort{{ activeSort === 'created_at' ? activeSortBy === 'desc' ? '-desc' : '-asc' : '' }} ml-2"></i></th>
+              <th scope="col" (click)="sortProjects('date')">Last Modified Date <i class="fa fa-sort{{ activeSort === 'date' ? activeSortBy === 'desc' ? '-desc' : '-asc' : '' }} ml-2"></i></th>
+              <th scope="col" style="width: 200px;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let project of projectList; let i = index">
+              <td>{{ project.id }}</td>
+              <td title="{{ project.name || project.unique_name }}">{{ (project.name || project.unique_name) | truncate }}</td>
+              <td>
+                <div class="" [ngStyle]="{borderRadius: '50%', margin: '0 auto', height: '20px', width: '20px', backgroundColor: project?.notes[0]?.color_tag || '#d1d3d4'}"></div>
+              </td>
+              <td>{{ project.user_id ? project.user.full_name : '&mdash;' }}</td>
+              <td>{{ getProjectStatus( project.status ) }}</td>
+              <td>{{ project.createdAt | date:'medium' }}</td>
+              <td>{{ project.updatedAt | date:'medium' }}</td>
+              <td class="px-1">
+                <ul class="list-inline mb-0">
+                  <li class="list-inline-item d-none1">
+                    <a href="javascript::void(0)" [routerLink]="['/projects/edit', project.id]" routerLinkActive="router-link-active" [state]="{page: pageOffset}"
+                      class="btn btn-brand btn-sm btn-primary">
+                      View
+                    </a>
+                  </li>
+                  <li class="list-inline-item">
+                    <select class="form-control form-control-sm" (change)="statusDropdownChanged(i, $event)" *ngIf="project.status != 4">
+                      <option value="">Select action</option>
+                      <!-- <option value="0" [selected]="project.status == 0" disabled>Draft</option>
+                      <option value="1" [selected]="project.status == 1" [disabled]="project.status > 1">Pending</option>
+                      <option value="2" [selected]="project.status == 2" [disabled]="project.status > 3">Approve</option>
+                      <option value="3" [selected]="project.status == 3" [disabled]="project.status > 1">Decline</option> -->
+                      <option value="4" [selected]="project.status == 4" [disabled]="project.status > 3">Archive</option>
+                    </select>
+                  </li>
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+    <div class="card-body" *ngIf="countTotalPage == 0">
+      <div class="alert alert-danger mb-0" role="alert">Sorry! No data to display.</div>
+    </div>
+
+    <div class="card-footer" *ngIf="countTotalPage != 0 && countTotalPage>limitPerPage">
+
+      <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+        <li class="page-item disabled" [ngClass]="{disabled:pager.currentPage === 1}">
+          <a class="page-link" (click)="setPage(1)">&laquo;</a>
+        </li>
+        <li class="page-item disabled" [ngClass]="{disabled:pager.currentPage === 1}">
+          <a class="page-link" (click)="setPage(pager.currentPage - 1)">&lsaquo;</a>
+        </li>
+        <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+          <a class="page-link" (click)="setPage(page)">{{page}}</a>
+        </li>
+
+        <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+          <a class="page-link" (click)="setPage(pager.currentPage + 1)">&rsaquo;</a>
+        </li>
+        <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+          <a class="page-link" (click)="setPage(pager.totalPages)">&raquo;</a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="rejectModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="rejectModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form [formGroup]="rejectForm" (ngSubmit)="saveRejectionContent()">
+        <div class="modal-header">
+          <h5 class="modal-title" id="rejectModalTitle">Reason For Rejection</h5>
+          <button type="button" class="close" (click)="closeModal()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="reject-title">Reason <span class="text-danger">*</span></label>
+            <input type="text" id="reject-title" class="form-control" formControlName="reasonTitle">
+            <div *ngIf="rejectFormSubmitted && formControls.reasonTitle.invalid" class="invalid-feedback">
+              <div *ngIf="formControls.reasonTitle.errors.required">Please enter reason</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="reject-content">Reason Details <span class="text-danger">*</span></label>
+            <textarea class="form-control" id="reject-content" rows="6" formControlName="reason"></textarea>
+            <div *ngIf="rejectFormSubmitted && formControls.reason.invalid" class="invalid-feedback">
+              <div *ngIf="formControls.reason.errors.required">Please enter some reason</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

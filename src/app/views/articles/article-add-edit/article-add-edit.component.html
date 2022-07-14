@@ -1,0 +1,92 @@
+<div class="row justify-content-center">
+    <div class="col-md-10">
+      <div class="card">
+        <div class="card-body">
+
+          <form class="example-form" [formGroup]="addEditForm" autocomplete="off">
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Article Title</label>
+                  <input placeholder="Please Enter title" formControlName="title" type="text"
+                    class="form-control" [ngClass]="{ 'is-invalid': submitted && addEditArticleTopic.title.errors }" required>
+                  <div *ngIf="submitted && addEditArticleTopic.title.errors" class="invalid-feedback">
+                    <div *ngIf="addEditArticleTopic.title.errors.required">required</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Writer Name</label>
+                  <input placeholder="Please Enter title" formControlName="writer_name" type="text"
+                    class="form-control" [ngClass]="{ 'is-invalid': submitted && addEditArticleTopic.writer_name.errors }" required>
+                  <div *ngIf="submitted && addEditArticleTopic.writer_name.errors" class="invalid-feedback">
+                    <div *ngIf="addEditArticleTopic.writer_name.errors.required">required</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 d-none">
+                  <div class="form-group">
+                    <label for="grade">Writer</label>
+                    <textarea placeholder="Please Enter description" formControlName="writer" type="text" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && addEditArticleTopic.writer.errors }" required></textarea>
+                    <div *ngIf="submitted && addEditArticleTopic.writer.errors" class="invalid-feedback">
+                      <div *ngIf="addEditArticleTopic.writer.errors.required">required</div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- <div class="form-group">
+                      <label for="grade">Data</label>
+                      <textarea placeholder="Please Enter data" formControlName="data" type="text" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && addEditArticleTopic.data.errors }" required></textarea>
+                      <div *ngIf="submitted && addEditArticleTopic.data.errors" class="invalid-feedback">
+                        <div *ngIf="addEditArticleTopic.data.errors.required">required</div>
+                      </div>
+                    </div> -->
+                    <div class="form-group">
+                        <label for="page_content">Data</label>
+                       <ckeditor formControlName="data" [config]="config"></ckeditor>
+                      </div>
+                  </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="cylinder">Status</label>
+                  <select class="form-control" formControlName="is_approved"
+                    [ngClass]="{ 'is-invalid': submitted && addEditArticleTopic.is_approved.invalid }" required>
+                    <option value="2">Admin Review</option>
+                    <option value="1">Approve</option>
+                    <option value="0">Disapprove</option>
+                  </select>
+
+                  <div *ngIf="submitted && addEditArticleTopic.is_approved.invalid" class="invalid-feedback">
+                    <div *ngIf="addEditArticleTopic.is_approved.errors.required">required</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <button type="submit" class="btn btn-primary mx-1" (click)="addOrEditArticleDetails()">{{button_name}}</button>
+                <button class="btn btn-primary mx-1" (click)="goBack()">Back</button>
+              </div>
+              <div class="col-md-6">
+              </div>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
